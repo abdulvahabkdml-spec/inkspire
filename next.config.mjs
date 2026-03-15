@@ -52,7 +52,15 @@ const nextConfig = {
       {
         protocol: 'https',
         hostname: 'www.ms.now',
-      }
+      },
+      {
+        protocol: 'https',
+        hostname: 'res.cloudinary.com',
+      },
+      {
+        protocol: 'https',
+        hostname: '**.cloudinary.com',
+      },
     ],
   },
 };

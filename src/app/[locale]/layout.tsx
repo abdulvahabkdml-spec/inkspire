@@ -70,7 +70,7 @@ export default async function RootLayout({
       <body className="font-sans antialiased transition-colors duration-300">
         <NextIntlClientProvider messages={messages}>
           <SiteHeader />
-          <div className="min-h-screen pt-20 bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 transition-colors duration-300">
+          <div className="min-h-screen pt-28 bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 transition-colors duration-300">
             {children}
           </div>
           <SiteFooter />

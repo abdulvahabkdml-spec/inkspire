@@ -34,7 +34,7 @@ export default async function VoicesPage({ params }: { params: Promise<{ locale:
           <RecentPerspectives articles={articles} locale={locale} />
         ) : (
           <div className="text-center py-32 font-serif text-slate-400 italic text-2xl">
-            {t('article.noEntries', { tag: 'Opinion' })}
+            {t('article.noEntries', { tag: 'Voices' })}
           </div>
         )}
       </div>

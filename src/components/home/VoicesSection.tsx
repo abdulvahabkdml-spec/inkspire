@@ -3,6 +3,14 @@ import { getVoices } from '@/lib/api';
 import { getTranslations } from 'next-intl/server';
 import Image from 'next/image';
 
+interface Voice {
+  id: string;
+  contributor: string;
+  role?: string;
+  quote: string;
+  imageUrl?: string;
+}
+
 export default async function VoicesSection({ locale }: { locale: string }) {
   const t = await getTranslations('home.voices');
   const voices = await getVoices();
@@ -20,12 +28,12 @@ export default async function VoicesSection({ locale }: { locale: string }) {
         </div>
         
         <div className="space-y-24">
-          {displayVoices.map((voice: any, idx) => (
+          {displayVoices.map((voice: Voice, idx) => (
             <div key={voice.id} className="flex flex-col md:flex-row gap-12 items-start group">
               <div className="flex-shrink-0 w-full md:w-48 flex flex-col items-center md:items-start text-center md:text-left">
                 {voice.imageUrl && (
-                  <div className="w-20 h-20 rounded-full overflow-hidden mb-4 border border-white/10 group-hover:border-white/30 transition-colors">
-                    <img src={voice.imageUrl} alt={voice.contributor} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700" />
+                  <div className="w-20 h-20 rounded-full overflow-hidden mb-4 border border-white/10 group-hover:border-white/30 transition-colors relative">
+                    <Image src={voice.imageUrl} alt={voice.contributor} fill className="object-cover grayscale group-hover:grayscale-0 transition-all duration-700" sizes="80px" />
                   </div>
                 )}
                 <h4 className="text-xl font-bold font-serif mb-1 group-hover:text-slate-300 transition-colors">{voice.contributor}</h4>

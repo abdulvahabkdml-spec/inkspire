@@ -77,19 +77,20 @@ export default function SiteHeader() {
     <>
       <header 
         ref={headerRef}
-        className="fixed top-0 left-0 right-0 z-50 flex items-center h-20 border-b border-transparent transition-colors duration-300 zen-hide"
+        className="fixed top-0 left-0 right-0 z-50 flex items-center h-28 border-b border-transparent transition-colors duration-300 zen-hide"
         style={{ 
           // Inject CSS variables for dark mode compatibility in GSAP
           '--header-bg-scrolled': 'rgba(var(--background-rgb, 246, 246, 248), 0.85)' 
         } as React.CSSProperties}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-            <div className="flex justify-between items-center h-full relative">
+            <div className="grid grid-cols-3 items-center h-full relative">
+            {/* Left Nav */}
             <div className="flex items-center gap-6">
               {/* Mobile Hamburger */}
               <button 
                 onClick={() => setMenuOpen(!menuOpen)}
-                className="md:hidden p-2 hover:bg-black/5 dark:hover:bg-white/5 rounded-lg transition-colors group"
+                className="lg:hidden p-2 hover:bg-black/5 dark:hover:bg-white/5 rounded-lg transition-colors group"
                 aria-label="Menu"
               >
                 <div className="relative w-6 h-5 flex flex-col justify-between overflow-hidden">
@@ -100,7 +101,7 @@ export default function SiteHeader() {
               </button>
 
               {/* Desktop Nav */}
-              <nav className="hidden md:flex items-center gap-8 pl-2">
+              <nav className="hidden lg:flex items-center gap-4 xl:gap-8 pl-2">
                 <Link href="/" className="text-[11px] font-bold tracking-[0.2em] transform uppercase hover:text-[#ec5b13] transition-colors">{t('home')}</Link>
                 
                 {/* Articles Dropdown */}
@@ -110,7 +111,7 @@ export default function SiteHeader() {
                   </Link>
                   <div className="absolute top-full left-0 opacity-0 invisible group-hover/nav:opacity-100 group-hover/nav:visible transition-all duration-300 transform translate-y-2 group-hover/nav:translate-y-0 pt-2">
                      <div className="bg-white dark:bg-slate-900 border border-black/5 dark:border-white/5 shadow-2xl rounded-xl py-3 flex flex-col min-w-48 backdrop-blur-md">
-                        {['World', 'History', 'Theology', 'Sufism', 'Kalam'].map((tag) => (
+                        {['World', 'History', 'Theology', 'Sufism'].map((tag) => (
                            <Link key={tag} href={`/archives?tag=${tag}`} className="px-5 py-2.5 text-[10px] font-bold uppercase tracking-widest hover:bg-black/5 dark:hover:bg-white/5 hover:text-[#ec5b13] transition-colors">
                               {tag}
                            </Link>
@@ -136,16 +137,19 @@ export default function SiteHeader() {
                 </div>
 
                 <Link href="/voices" className="text-[11px] font-bold tracking-[0.2em] transform uppercase hover:text-[#ec5b13] transition-colors">{t('voices')}</Link>
+                <Link href="/mythos" className="text-[11px] font-bold tracking-[0.2em] transform uppercase hover:text-[#ec5b13] transition-colors border border-black/10 dark:border-white/10 px-2 py-0.5 rounded-sm">MYTHOS</Link>
               </nav>
             </div>
             
-            <div ref={logoRef} className="absolute left-1/2 -translate-x-1/2 flex items-center justify-center origin-center">
-              <Link href="/" className="text-3xl md:text-5xl font-bold tracking-tight serif-font text-black dark:text-white whitespace-nowrap lg:tracking-[-0.05em]">
-                THE HI<span style={{ color: '#ec5b13' }}>S</span>TORIA
+            {/* Center Logo */}
+            <div ref={logoRef} className="flex items-center justify-center pointer-events-none">
+              <Link href="/" className="text-xl sm:text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight serif-font text-black dark:text-white whitespace-nowrap lg:tracking-[-0.05em] pointer-events-auto">
+                THE HI<span style={{ color: '#A52A2A' }}>S</span>TORIA
               </Link>
             </div>
             
-            <div className="flex items-center gap-4">
+            {/* Right Actions */}
+            <div className="flex items-center justify-end gap-4 relative z-20">
                <button
                  onClick={() => setSearchOpen(true)}
                  className="p-2 hover:bg-black/5 dark:hover:bg-white/5 rounded-lg transition-colors"
@@ -187,6 +191,7 @@ export default function SiteHeader() {
                 { name: t('archives'), href: '/archives' },
                 { name: t('fiction'), href: '/fiction' },
                 { name: t('voices'), href: '/voices' },
+                { name: 'Mythos', href: '/mythos' },
               ].map((item, idx) => (
                 <Link 
                   key={item.name}

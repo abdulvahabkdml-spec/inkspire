@@ -1,7 +1,7 @@
 {
   "nav": {
     "home": "Home",
-    "archives": "Archives",
+    "archives": "Articles",
     "fiction": "Fiction",
     "voices": "Voices",
     "admin": "Admin Access"
@@ -13,6 +13,9 @@
     "articles": {
       "title": "Articles",
       "viewMore": "View More Articles"
+    },
+    "fiction": {
+      "viewMore": "View More Fictions"
     },
     "voices": {
       "title": "Voices",

@@ -7,9 +7,8 @@ export default async function ArticlesGrid({ locale }: { locale: string }) {
   const t = await getTranslations('home.articles');
   const articles = await getArticlesByCategory('Articles', locale);
   const heroConfig = await getHeroConfig();
-  
-  // Exclude the hero article so it doesn't duplicate on the homepage
-  const displayArticles = articles.filter(a => a.slug !== heroConfig.articleSlug).slice(0, 4);
+
+  const displayArticles = articles.filter(a => a.slug !== heroConfig.articleSlug && a.showOnHomepage !== false).slice(0, 4);
 
   return (
     <section className="mb-24">

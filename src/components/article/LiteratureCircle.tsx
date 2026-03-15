@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Send, MessageSquare } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
@@ -67,22 +67,43 @@ export default function LiteratureCircle({ articleSlug }: { articleSlug: string 
   const [newComment, setNewComment] = useState('');
   const [name, setName] = useState('');
   const [comments, setComments] = useState<Comment[]>([]);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const t = useTranslations('comments');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  useEffect(() => {
+    async function load() {
+      try {
+        const res = await fetch(`/api/comments?article=${articleSlug}`);
+        const data = await res.json();
+        if (data.success) {
+          setComments(data.data);
+        }
+      } catch (err) {}
+    }
+    load();
+  }, [articleSlug]);
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!newComment.trim() || !name.trim()) return;
+    if (!newComment.trim() || !name.trim() || isSubmitting) return;
 
-    const comment: Comment = {
-      id: String(Date.now()),
-      author: name,
-      content: newComment,
-      date: t('justNow'),
-    };
-
-    setComments(prev => [comment, ...prev]);
-    setNewComment('');
-    setName('');
+    setIsSubmitting(true);
+    try {
+      const res = await fetch('/api/comments', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ author: name, content: newComment, article: articleSlug }),
+      });
+      const data = await res.json();
+      
+      if (data.success) {
+        setComments(prev => [data.data, ...prev]);
+        setNewComment('');
+        setName('');
+      }
+    } catch (err) {} finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -111,11 +132,11 @@ export default function LiteratureCircle({ articleSlug }: { articleSlug: string 
           />
           <button
             type="submit"
-            disabled={!newComment.trim() || !name.trim()}
+            disabled={!newComment.trim() || !name.trim() || isSubmitting}
             className="absolute bottom-4 right-4 flex items-center gap-3 bg-black text-white dark:bg-white dark:text-black px-6 py-3 text-[10px] font-bold uppercase tracking-[0.2em] hover:opacity-80 transition-all rounded-full disabled:opacity-20 disabled:cursor-not-allowed shadow-xl shadow-black/10"
           >
             <Send size={12} />
-            {t('post')}
+            {isSubmitting ? '...' : t('post')}
           </button>
         </div>
       </form>

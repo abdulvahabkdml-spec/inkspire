@@ -22,6 +22,7 @@ export default function ArticleCard({ article, variant = 'grid' }: ArticleCardPr
               src={article.imageUrl} 
               alt={article.title}
               fill
+              sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
               className="object-cover bg-gray-100 transition-transform duration-700 group-hover:scale-105"
             />
           </div>
@@ -54,6 +55,7 @@ export default function ArticleCard({ article, variant = 'grid' }: ArticleCardPr
           src={article.imageUrl} 
           alt={article.title}
           fill
+          sizes="(max-width: 768px) 100vw, 50vw"
           className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" 
         />
         <span className="absolute top-4 right-4 z-20 bg-black text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-widest">

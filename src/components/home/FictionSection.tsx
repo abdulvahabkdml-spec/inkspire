@@ -8,8 +8,8 @@ export default async function FictionSection({ locale }: { locale: string }) {
   const articles = await getArticlesByCategory('Fiction', locale);
   const heroConfig = await getHeroConfig();
   
-  // Exclude the hero article so it doesn't duplicate, and take exactly 4
-  const fictionArticles = articles.filter(a => a.slug !== heroConfig.articleSlug).slice(0, 4);
+  // Exclude the hero article and non-homepage items
+  const fictionArticles = articles.filter(a => a.slug !== heroConfig.articleSlug && a.showOnHomepage !== false).slice(0, 4);
   
   if (fictionArticles.length === 0) return null;
 
@@ -32,6 +32,7 @@ export default async function FictionSection({ locale }: { locale: string }) {
               src={fictionArticles[0].imageUrl} 
               alt={fictionArticles[0].title}
               fill
+              sizes="(max-width: 768px) 100vw, 42vw"
               className="object-cover transition-transform duration-1000 group-hover:scale-110"
             />
             <div className="absolute bottom-0 left-0 p-8 w-full z-20">
@@ -57,6 +58,7 @@ export default async function FictionSection({ locale }: { locale: string }) {
                 src={fictionArticles[1].imageUrl} 
                 alt={fictionArticles[1].title}
                 fill
+                sizes="(max-width: 768px) 100vw, 58vw"
                 className="object-cover transition-transform duration-1000 group-hover:scale-105"
               />
               <div className="absolute bottom-0 left-0 p-8 z-20 w-full md:w-3/4">
@@ -110,7 +112,7 @@ export default async function FictionSection({ locale }: { locale: string }) {
           href="/fiction"
           className="group relative px-10 py-4 overflow-hidden rounded bg-black text-white dark:bg-white dark:text-black font-bold uppercase tracking-widest text-[10px] transition-all hover:pr-14"
         >
-          <span className="relative z-10 transition-transform duration-300">{t('home.articles.viewMore')}</span>
+          <span className="relative z-10 transition-transform duration-300">{t('home.fiction.viewMore')}</span>
           <span className="absolute right-4 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-all duration-300">→</span>
         </Link>
       </div>

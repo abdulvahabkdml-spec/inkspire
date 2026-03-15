@@ -15,6 +15,7 @@ export interface Article {
   readingTime: string;
   status: string; // 'Published' | 'Draft'
   tags: string[];
+  showOnHomepage?: boolean;
 }
 
 // ── SEED DATA ─────────────────────────────────────────────────────
@@ -58,7 +59,8 @@ function mapStrapiToArticle(data: any): Article {
       : 'https://images.unsplash.com/photo-1555993539-1732b0258235?q=80&w=1200&auto=format&fit=crop',
     readingTime: attrs.readingTime || '5 min read',
     status: attrs.publishedAt ? 'Published' : 'Draft',
-    tags: attrs.tags ? (typeof attrs.tags === 'string' ? attrs.tags.split(',') : attrs.tags) : []
+    tags: attrs.tags ? (typeof attrs.tags === 'string' ? attrs.tags.split(',') : attrs.tags) : [],
+    showOnHomepage: attrs.showOnHomepage ?? true
   };
 }
 
@@ -367,30 +369,35 @@ export async function saveTags(tags: string[]): Promise<boolean> {
 export async function getHeroConfig(): Promise<any> {
   if (typeof window === 'undefined') {
     try {
+      const { unstable_noStore } = await import('next/cache');
+      unstable_noStore(); // prevent Next.js from caching this fetch
       const { dbGetHeroConfig } = await import('@/lib/server-db');
-      return await dbGetHeroConfig({ articleSlug: 'architecture-of-silence' });
+      return await dbGetHeroConfig({ 
+        articleSlug: 'the-girls-we-forgot-a-reckoning-with-selective-empathy',
+        secondarySlug: 'twenty-five-held-breaths',
+      });
     } catch {
-      return { articleSlug: 'architecture-of-silence' };
+      return { articleSlug: '' };
     }
   }
   try {
     const result = await clientFetch<{ success: boolean; data: any }>('/api/hero-config');
     return result.data;
   } catch {
-    return { articleSlug: 'architecture-of-silence' };
+    return { articleSlug: '' };
   }
 }
 
-export async function saveHeroConfig(config: any): Promise<boolean> {
+export async function saveHeroConfig(config: any): Promise<{ success: boolean; error?: string }> {
   try {
-    await clientFetch('/api/hero-config', {
+    const res = await clientFetch<{ success: boolean; error?: string }>('/api/hero-config', {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(config),
     });
-    return true;
-  } catch {
-    return false;
+    return res;
+  } catch (err: any) {
+    return { success: false, error: err.message || 'Network error' };
   }
 }
 
@@ -488,9 +495,11 @@ export async function saveMedia(item: any): Promise<boolean> {
 
 export async function deleteMedia(id: string): Promise<boolean> {
   try {
-    await clientFetch(`/api/media/${id}`, { method: 'DELETE' });
-    return true;
-  } catch {
+    const res = await fetch(`/api/media?id=${id}`, { method: 'DELETE' });
+    const data = await res.json();
+    return data.success;
+  } catch (err) {
+    console.error('deleteMedia error:', err);
     return false;
   }
 }

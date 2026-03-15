@@ -7,12 +7,12 @@ import { ArrowLeft, Save, Eye, Loader2, Image as ImageIcon } from 'lucide-react'
 import { createArticle, getTags } from '@/lib/api';
 import MediaSelector from '@/components/admin/MediaSelector';
 
-// PRD V2 taxonomy: Articles, Fiction, Voices
-const CONTENT_TYPES = ['Articles', 'Fiction', 'Voices'];
+// PRD V2 taxonomy: Articles, Fiction, Voices, Legendary
+const CONTENT_TYPES = ['Articles', 'Fiction', 'Voices', 'Mythos'];
 const STATUSES = ['Draft', 'Published', 'Scheduled'];
 const DEFAULT_TAGS = [
   '#QuranicStudy', '#Sufism', '#Literature', '#Theology',
-  '#Kalam', '#History', '#Poetry', '#Opinion',
+  '#History', '#Poetry', '#Opinion',
 ];
 
 export default function NewArticlePage() {
@@ -28,6 +28,7 @@ export default function NewArticlePage() {
     status: 'Draft',
     imageUrl: '',
     lang: 'en',
+    showOnHomepage: true,
   });
   const [tags, setTags] = useState<string[]>([]);
   const [saved, setSaved] = useState(false);
@@ -63,10 +64,9 @@ export default function NewArticlePage() {
     
     const success = await createArticle({
       ...form,
+      category: form.type, // Map UI 'type' to DB 'category'
       slug,
       tags,
-      category: form.type as any, // Map 'type' to 'category' for API
-      status: form.status as any,
       date: new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }),
       readingTime: `${Math.ceil(form.content.split(' ').length / 200)} min read`
     });
@@ -75,6 +75,7 @@ export default function NewArticlePage() {
       setSaved(true);
       setTimeout(() => {
         router.push('/admin');
+        router.refresh();
       }, 1500);
     } else {
       alert('Failed to save article. Please check your connection or API token.');
@@ -85,7 +86,7 @@ export default function NewArticlePage() {
   return (
     <div className="min-h-screen bg-[#0F0F0F] text-white">
       {/* Top bar */}
-      <div className="sticky top-0 z-50 bg-black border-b border-white/5 px-8 py-4 flex items-center justify-between">
+      <div className="sticky top-0 z-50 bg-black border-b border-white/5 p-4 md:px-8 md:py-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div className="flex items-center gap-4">
           <Link href="/admin" className="flex items-center gap-2 text-slate-500 hover:text-white text-sm transition-colors">
             <ArrowLeft size={16} />
@@ -95,7 +96,7 @@ export default function NewArticlePage() {
           <span className="text-sm font-serif">New Entry</span>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex flex-wrap items-center gap-2 sm:gap-3 w-full sm:w-auto">
           <select
             value={form.lang}
             onChange={(e) => handleChange('lang', e.target.value)}
@@ -124,15 +125,15 @@ export default function NewArticlePage() {
       </div>
 
       {/* Content */}
-      <div className="max-w-5xl mx-auto px-8 py-12 grid grid-cols-3 gap-8">
+      <div className="max-w-5xl w-full mx-auto p-4 md:p-8 py-12 grid grid-cols-1 lg:grid-cols-3 gap-8 overflow-hidden">
         {/* Editor (left) */}
-        <div className="col-span-2 flex flex-col gap-6">
+        <div className="lg:col-span-2 flex flex-col gap-6 w-full max-w-full overflow-hidden">
           <input
             type="text"
             placeholder="Article Title..."
             value={form.title}
             onChange={(e) => handleChange('title', e.target.value)}
-            className="w-full bg-transparent border-b border-white/10 text-white text-4xl font-serif font-bold py-3 outline-none placeholder-white/20 focus:border-[#D4AF37] transition-colors"
+            className="w-full bg-transparent border-b border-white/10 text-white text-2xl md:text-3xl lg:text-4xl font-serif font-bold py-3 outline-none placeholder-white/20 focus:border-[#D4AF37] transition-colors"
           />
           <textarea
             placeholder="Write a short excerpt..."
@@ -161,7 +162,7 @@ export default function NewArticlePage() {
             {/* Content Type */}
             <div className="space-y-3">
               <label className="text-[10px] text-slate-500 uppercase tracking-widest block font-bold">Content Architecture</label>
-              <div className="grid grid-cols-3 gap-2">
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-2">
                 {CONTENT_TYPES.map(t => (
                   <button
                     key={t}
@@ -176,6 +177,20 @@ export default function NewArticlePage() {
                     {t}
                   </button>
                 ))}
+              </div>
+              
+              <div className="mt-4 flex items-center justify-between p-4 bg-black/30 border border-white/5 rounded-xl">
+                <div>
+                  <p className="text-[10px] text-white uppercase tracking-widest font-bold">Show on Homepage</p>
+                  <p className="text-[9px] text-slate-500 mt-1 uppercase tracking-wider">Display this entry in frontend homepage sections.</p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setForm(prev => ({ ...prev, showOnHomepage: !prev.showOnHomepage }))}
+                  className={`relative w-11 h-6 rounded-full transition-colors ${form.showOnHomepage ? 'bg-[#ec5b13]' : 'bg-slate-700'}`}
+                >
+                  <span className={`absolute top-1 bottom-1 w-4 bg-white rounded-full transition-all ${form.showOnHomepage ? 'left-[calc(100%-1.25rem)]' : 'left-1'}`}></span>
+                </button>
               </div>
             </div>
 

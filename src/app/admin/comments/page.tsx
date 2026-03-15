@@ -33,7 +33,7 @@ export default function CommentsModerationPage() {
     }
   };
   return (
-    <main className="px-10 py-10">
+    <main className="p-5 md:p-10 w-full max-w-[100vw] overflow-hidden">
       <div className="flex items-center justify-between mb-10">
         <div>
           <h2 className="text-2xl font-serif font-bold text-white flex items-center gap-3">

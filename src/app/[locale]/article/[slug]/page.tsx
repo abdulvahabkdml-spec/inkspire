@@ -22,7 +22,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
     <ReaderProvider>
       <article className="min-h-screen relative pb-32 pt-20">
         {/* Article Header */}
-        <header className="w-full max-w-4xl mx-auto px-6 py-12 text-center zen-hide">
+        <header className="w-full max-w-4xl mx-auto px-6 py-12 text-center">
           <div className="mb-8 flex justify-center items-center gap-4">
              <div className="h-px w-8 bg-black/10 dark:bg-white/10"></div>
              <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-slate-400">
@@ -63,7 +63,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
         </header>
 
         {/* Feature Image */}
-        <div className="w-full max-w-6xl mx-auto px-6 mb-20 zen-hide">
+        <div className="w-full max-w-6xl mx-auto px-6 mb-20">
           <div className="relative aspect-[21/9] w-full bg-slate-50 dark:bg-slate-900 rounded-2xl overflow-hidden shadow-2xl shadow-black/5">
             <Image 
               src={article.imageUrl} 
@@ -77,7 +77,11 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
         {/* Article Body */}
         <div className="w-full max-w-2xl mx-auto px-6 relative">
           <div 
-            className="prose prose-slate dark:prose-invert prose-lg max-w-none font-serif leading-[1.8] text-slate-800 dark:text-slate-200 mb-20"
+            className={`prose prose-slate dark:prose-invert prose-lg max-w-none font-serif leading-[1.8] text-slate-800 dark:text-slate-200 mb-20 ${
+              article.tags?.some(tag => ['poem', '#poem', 'poetry', '#poetry'].includes(tag.toLowerCase())) 
+              ? 'poetry-format' 
+              : ''
+            }`}
             dangerouslySetInnerHTML={{ __html: article.content }}
           />
 

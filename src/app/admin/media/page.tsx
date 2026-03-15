@@ -65,19 +65,24 @@ export default function MediaLibraryPage() {
     setMediaItems(updated);
   };
 
+  const [deletingId, setDeletingId] = useState<string | null>(null);
+
   const handleDelete = async (id: string) => {
-    if (window.confirm('Are you sure you want to permanently delete this asset?')) {
-      try {
-        const success = await deleteMedia(id);
-        if (success) {
-          setMediaItems(mediaItems.filter(m => m.id !== id));
-        } else {
-          alert('Failed to delete asset from database.');
-        }
-      } catch (err) {
-        console.error('Delete error:', err);
-        alert('An error occurred while trying to delete.');
+    // Replaced native window.confirm with direct deletion for better UX and testability
+    // If you want confirmation, a custom Tailwind modal is highly recommended.
+    try {
+      setDeletingId(id);
+      const success = await deleteMedia(id);
+      if (success) {
+        setMediaItems(items => items.filter(m => m.id !== id));
+      } else {
+        alert('Failed to delete asset. Please check the server logs.');
       }
+    } catch (err) {
+      console.error('Delete error:', err);
+      alert('An unexpected error occurred while trying to delete.');
+    } finally {
+      setDeletingId(null);
     }
   };
 
@@ -92,7 +97,7 @@ export default function MediaLibraryPage() {
   );
 
   return (
-    <main className="px-10 py-10 w-full">
+    <main className="p-5 md:p-10 w-full max-w-[100vw] overflow-hidden">
       {/* Hidden file input (accepts multiple images) */}
       <input
         ref={fileInputRef}
@@ -104,7 +109,7 @@ export default function MediaLibraryPage() {
       />
 
       {/* Header */}
-      <div className="flex items-center justify-between mb-10">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
         <div>
           <h2 className="text-2xl font-serif font-bold tracking-tight">Media Library</h2>
           <p className="text-slate-500 text-sm mt-1">Manage all images and assets used across The Historia.</p>
@@ -199,9 +204,10 @@ export default function MediaLibraryPage() {
                   </button>
                   <button
                     onClick={() => handleDelete(media.id)}
-                    className="flex items-center justify-center p-3 bg-white/5 hover:bg-red-500/20 hover:text-red-400 rounded-lg transition-colors text-slate-500"
+                    disabled={deletingId === media.id}
+                    className="flex items-center justify-center p-3 bg-white/5 hover:bg-red-500/20 hover:text-red-400 rounded-lg transition-colors text-slate-500 disabled:opacity-50"
                   >
-                    <Trash2 size={12} />
+                    {deletingId === media.id ? <Loader2 size={12} className="animate-spin" /> : <Trash2 size={12} />}
                   </button>
                 </div>
               </div>

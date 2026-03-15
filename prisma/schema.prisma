@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -10,22 +7,23 @@ datasource db {
 }
 
 model Article {
-  id          String   @id @default(cuid())
-  slug        String   @unique
-  title       String
-  excerpt     String   @default("")
-  content     String   @default("")
-  category    String   @default("Articles")
-  author      String   @default("Anonymous")
-  authorImage String   @default("")
-  authorBio   String   @default("")
-  date        String   @default("")
-  imageUrl    String   @default("")
-  readingTime String   @default("5 min read")
-  status      String   @default("Draft")
-  tags        String[] @default([])
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id             String   @id @default(cuid())
+  slug           String   @unique
+  title          String
+  excerpt        String   @default("")
+  content        String   @default("")
+  category       String   @default("Articles")
+  author         String   @default("Anonymous")
+  date           String   @default("")
+  imageUrl       String   @default("")
+  readingTime    String   @default("5 min read")
+  status         String   @default("Draft")
+  tags           String[] @default([])
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  authorBio      String   @default("")
+  authorImage    String   @default("")
+  showOnHomepage Boolean  @default(true)
 
   @@index([slug])
 }
@@ -66,6 +64,7 @@ model HeroConfig {
   customExcerpt String   @default("")
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
+  secondarySlug String   @default("")
 }
 
 model Comment {
@@ -86,4 +85,5 @@ model Media {
   size      String   @default("")
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  publicId  String?
 }

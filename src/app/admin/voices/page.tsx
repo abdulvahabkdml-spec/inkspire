@@ -49,7 +49,7 @@ export default function VoicesEditorPage() {
   };
 
   return (
-    <main className="px-10 py-10">
+    <main className="p-5 md:p-10 w-full max-w-[100vw] overflow-hidden">
       <Link href="/admin" className="inline-flex items-center gap-2 text-slate-500 hover:text-white text-sm mb-8 transition-colors">
         <ArrowLeft size={15} /> Back to Dashboard
       </Link>

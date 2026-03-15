@@ -2,14 +2,22 @@ import Image from 'next/image';
 import { getAllArticles, getHeroConfig } from '@/lib/api';
 import { Link } from '@/navigation';
 import { getTranslations } from 'next-intl/server';
+import { unstable_noStore } from 'next/cache';
 
 export default async function HeroSection({ locale }: { locale: string }) {
+  unstable_noStore(); // Always fetch fresh data — no caching on the hero
   const t = await getTranslations('home.hero');
   const articles = await getAllArticles(locale);
   const heroConfig = await getHeroConfig();
   
   const mainFeature = articles.find(a => a.slug === heroConfig.articleSlug) || articles[0];
-  const secondFeature = articles.find(a => a.category === 'Articles' && a.slug !== mainFeature?.slug) || articles[1] || articles[0];
+  
+  // Find secondary: 1. Try manual slug, 2. If same as main or missing, try next most recent article, 3. Fallback to any second article
+  let secondFeature = articles.find(a => a.slug === heroConfig.secondarySlug);
+  
+  if (!secondFeature || secondFeature.slug === mainFeature?.slug) {
+    secondFeature = articles.find(a => a.slug !== mainFeature?.slug) || articles[1] || articles[0];
+  }
 
   if (!mainFeature) {
     return (
@@ -30,12 +38,14 @@ export default async function HeroSection({ locale }: { locale: string }) {
           <Image 
             alt={displayTitle}
             fill
+            priority
+            sizes="(max-width: 1024px) 100vw, 66vw"
             className="w-full h-full object-cover transition-transform duration-[1.5s] ease-out group-hover:scale-110" 
             src={mainFeature.imageUrl || 'https://images.unsplash.com/photo-1542385151-efd9000785a0?q=80&w=2574'}
           />
           <div className="absolute bottom-0 left-0 p-8 z-20 text-white max-w-2xl">
             <span className="bg-black text-[10px] font-bold uppercase tracking-[0.2em] px-3 py-1 rounded-full mb-4 inline-block">{t('featured')}</span>
-            <h2 className="text-4xl md:text-5xl font-bold font-serif mb-4 leading-tight group-hover:text-white/80 transition-colors duration-300">{displayTitle}</h2>
+            <h2 className="text-4xl md:text-5xl font-bold font-serif mb-4 leading-tight text-white transition-colors duration-300">{displayTitle}</h2>
             <p className="text-lg text-slate-200 mb-6 font-serif italic line-clamp-2 opacity-90">{displayExcerpt}</p>
             <div className="flex items-center gap-4">
                <div className="w-10 h-[1px] bg-white/40 group-hover:w-16 group-hover:bg-white transition-all duration-500"></div>
@@ -53,6 +63,7 @@ export default async function HeroSection({ locale }: { locale: string }) {
               <Image 
                 alt={secondFeature.title}
                 fill
+                sizes="(max-width: 1024px) 100vw, 33vw"
                 className="w-full h-full object-cover transition-transform duration-[2s] group-hover:scale-105" 
                 src={secondFeature.imageUrl}
               />
@@ -60,7 +71,7 @@ export default async function HeroSection({ locale }: { locale: string }) {
                 {secondFeature.tags[0] || 'Perspective'}
               </div>
             </div>
-            <h3 className="text-2xl font-bold font-serif leading-snug group-hover:text-black transition-colors duration-300">{secondFeature.title}</h3>
+            <h3 className="text-2xl font-bold font-serif leading-snug group-hover:text-[#ec5b13] transition-colors duration-300 dark:text-white">{secondFeature.title}</h3>
             <p className="text-slate-600 dark:text-slate-400 text-sm mt-3 line-clamp-2 leading-relaxed">{secondFeature.excerpt}</p>
           </Link>
         ) : (

@@ -4,6 +4,7 @@ import { prisma } from '@/lib/prisma';
 
 // Disable the default Next.js body parser so we can read the raw stream
 export const runtime = 'nodejs';
+export const maxDuration = 60; // Allow more time for large uploads
 
 export async function POST(req: NextRequest) {
   try {
@@ -16,6 +17,8 @@ export async function POST(req: NextRequest) {
         { status: 400 }
       );
     }
+
+    console.log(`[UPLOAD] Starting: ${file.name}, Size: ${(file.size / 1024 / 1024).toFixed(2)} MB`);
 
     // Validate file type
     const allowedTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/gif', 'image/svg+xml'];
@@ -47,7 +50,7 @@ export async function POST(req: NextRequest) {
         url,
         name: file.name,
         size,
-        // Store publicId if you ever want to delete from Cloudinary via DB
+        publicId,
       },
     });
 

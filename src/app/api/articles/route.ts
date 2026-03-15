@@ -67,9 +67,11 @@ export async function POST(req: NextRequest) {
     const body = await req.json();
 
     if (!body.slug) {
-      body.slug = body.title
-        ?.toLowerCase()
-        .replace(/[^a-z0-9]+/g, '-')
+      // Improved slugification: handle non-latin characters by only stripping certain symbols
+      body.slug = (body.title || '')
+        .toLowerCase()
+        .trim()
+        .replace(/[^\p{L}\p{N}]+/gu, '-') // Keep letters and numbers (Unicode aware)
         .replace(/(^-|-$)/g, '') || `article-${Date.now()}`;
     }
 
@@ -89,6 +91,7 @@ export async function POST(req: NextRequest) {
         readingTime: body.readingTime || '5 min read',
         status: body.status || 'Draft',
         tags: body.tags || [],
+        showOnHomepage: body.showOnHomepage !== undefined ? body.showOnHomepage : true,
       }
     });
 

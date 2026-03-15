@@ -30,7 +30,7 @@ export default function FeaturedPortrait({
         {/* Author badge */}
         <div className="flex items-center gap-4">
           <div className="w-12 h-12 rounded-full bg-slate-200 overflow-hidden relative shrink-0">
-            <Image src={authorAvatarUrl} alt={authorName} fill className="object-cover" />
+            <Image src={authorAvatarUrl} alt={authorName} fill sizes="48px" className="object-cover" />
           </div>
           <div>
             <p className="text-sm font-bold uppercase tracking-wider text-slate-900 dark:text-white">
@@ -54,6 +54,7 @@ export default function FeaturedPortrait({
           src={portraitUrl}
           alt={title}
           fill
+          sizes="(max-width: 1024px) 100vw, 50vw"
           className="object-cover grayscale hover:grayscale-0 transition-all duration-1000"
         />
       </div>

@@ -15,14 +15,15 @@ const TYPE_COLORS: Record<string, string> = {
   Articles: 'bg-white/10 text-white',
   Fiction:  'bg-white/5 text-slate-300',
   Voices:   'bg-white/5 text-slate-400',
+  Mythos:   'bg-[#ec5b13]/20 text-[#ec5b13]',
 };
 
 const NAV_ITEMS = [
   { icon: LayoutDashboard, label: 'Dashboard',          href: '/admin' },
-  { icon: FileText,        label: 'Articles',           href: '/admin' },
+  { icon: FileText,        label: 'All Articles',       href: '/admin/articles' },
   { icon: PenTool,          label: 'New Article',        href: '/admin/articles/new' },
   { icon: Mic2,            label: 'Voices Editor',      href: '/admin/voices' },
-  { icon: Star,            label: 'Dual-Feature Hero',  href: '/admin/hero' },
+  { icon: Star,            label: 'Homepage Featured',  href: '/admin/hero' },
   { icon: Tags,            label: 'Tag Manager',        href: '/admin/tags' },
   { icon: ImageIcon,       label: 'Media Library',      href: '/admin/media' },
   { icon: MessageSquare,   label: 'Comments',           href: '/admin/comments' },
@@ -33,7 +34,7 @@ export default function AdminDashboard() {
   const router   = useRouter();
   const [articles, setArticles] = useState<Article[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [filter, setFilter] = useState<'All' | 'Articles' | 'Fiction' | 'Voices'>('All');
+  const [filter, setFilter] = useState<'All' | 'Articles' | 'Fiction' | 'Voices' | 'Mythos'>('All');
 
   useEffect(() => {
     const fetchArticles = async () => {
@@ -73,23 +74,25 @@ export default function AdminDashboard() {
     articles: articles.filter(a => a.category === 'Articles').length,
     fiction:  articles.filter(a => a.category === 'Fiction').length,
     voices:   articles.filter(a => a.category === 'Voices').length,
+    mythos:   articles.filter(a => a.category === 'Mythos').length,
     published: articles.filter(a => a.status === 'Published').length,
     drafts:    articles.filter(a => a.status === 'Draft').length,
   };
 
 
   return (
-    <main className="px-10 py-10">
+    <main className="p-5 md:p-10 w-full max-w-[100vw] overflow-hidden">
 
         {/* Page Header */}
-        <div className="flex items-center justify-between mb-10">
-          <div>
-            <h2 className="text-2xl font-serif font-bold">Content Manager</h2>
-            <p className="text-slate-500 text-sm mt-1">Manage articles, fiction, and editorial voices.</p>
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-10 relative">
+          <div className="absolute -top-20 -left-10 w-96 h-96 bg-[#ec5b13]/10 rounded-full blur-[120px] pointer-events-none z-0"></div>
+          <div className="relative z-10">
+            <h2 className="text-3xl font-serif font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-white to-white/60">Digital Command</h2>
+            <p className="text-slate-400 text-sm mt-1 uppercase tracking-widest text-[9px] font-bold">Manage articles, fiction, and editorial voices.</p>
           </div>
           <Link
             href="/admin/articles/new"
-            className="flex items-center gap-2 bg-white text-black px-5 py-3 rounded font-bold uppercase tracking-widest text-[10px] hover:bg-slate-200 transition-colors shadow-lg"
+            className="relative z-10 flex items-center gap-2 bg-gradient-to-r from-white to-slate-200 text-black px-6 py-3.5 rounded-lg font-black uppercase tracking-widest text-[10px] hover:scale-105 transition-all shadow-[0_0_30px_rgba(255,255,255,0.15)]"
           >
             <Plus size={14} strokeWidth={3} />
             New Entry
@@ -97,25 +100,26 @@ export default function AdminDashboard() {
         </div>
 
         {/* ── Stats Row ────────────────────────────────────────────── */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-10">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 md:gap-4 mb-12 relative z-10">
           {[
             { label: 'Total',      count: counts.all,      accent: 'text-white' },
             { label: 'Articles',   count: counts.articles,  accent: 'text-white/80' },
             { label: 'Fiction',    count: counts.fiction,   accent: 'text-white/60' },
             { label: 'Voices',     count: counts.voices,    accent: 'text-white/40' },
+            { label: 'Mythos',     count: counts.mythos,    accent: 'text-[#ec5b13]' },
             { label: 'Published',  count: counts.published, accent: 'text-green-500' },
             { label: 'Drafts',     count: counts.drafts,    accent: 'text-slate-500' },
           ].map(stat => (
-            <div key={stat.label} className="bg-white/5 border border-white/5 rounded-xl px-5 py-4">
-              <p className="text-slate-500 text-[10px] uppercase tracking-widest mb-2">{stat.label}</p>
-              <p className={`text-3xl font-serif font-bold ${stat.accent}`}>{stat.count}</p>
+            <div key={stat.label} className="bg-gradient-to-br from-white/10 to-transparent border border-white/10 rounded-2xl px-6 py-5 backdrop-blur-md shadow-xl hover:border-white/20 transition-all">
+              <p className="text-slate-400 text-[9px] uppercase tracking-[0.2em] font-bold mb-3">{stat.label}</p>
+              <p className={`text-4xl font-serif font-bold ${stat.accent}`}>{stat.count}</p>
             </div>
           ))}
         </div>
 
         {/* ── Filter Tabs ──────────────────────────────────────────── */}
-        <div className="flex items-center gap-2 mb-6">
-          {(['All', 'Articles', 'Fiction', 'Voices'] as const).map((tab, idx) => (
+        <div className="flex items-center gap-2 mb-6 overflow-x-auto no-scrollbar pb-2 w-full">
+          {(['All', 'Articles', 'Fiction', 'Voices', 'Mythos'] as const).map((tab, idx) => (
             <button
               key={tab}
               onClick={() => setFilter(tab)}
@@ -135,7 +139,8 @@ export default function AdminDashboard() {
 
         {/* ── Articles Table ───────────────────────────────────────── */}
         <div className="bg-white/[0.03] border border-white/5 rounded-xl overflow-hidden">
-          <table className="w-full text-sm">
+          <div className="overflow-x-auto w-full">
+            <table className="w-full text-sm min-w-[800px]">
             <thead>
               <tr className="border-b border-white/10 text-slate-500 text-left text-[10px] uppercase tracking-widest">
                 <th className="px-6 py-4">Title</th>
@@ -228,6 +233,7 @@ export default function AdminDashboard() {
               <p className="text-sm uppercase tracking-widest">No entries found</p>
             </div>
           )}
+          </div>
         </div>
 
         {/* PRD V2 Quick Links */}
@@ -244,7 +250,7 @@ export default function AdminDashboard() {
             {
               href: '/admin/tags',
               icon: Tags,
-              title: 'Taxonony Master',
+              title: 'Taxonomy Master',
               desc: 'Manage global filters and topic tags.',
               color: 'text-white/80',
               bg: 'bg-white/5 border-white/5',
@@ -261,12 +267,13 @@ export default function AdminDashboard() {
             <Link
               key={title}
               href={href}
-              className={`flex items-start gap-4 p-5 rounded-xl border ${bg} hover:bg-white/5 transition-all group`}
+              className={`flex items-start gap-5 p-6 rounded-2xl border ${bg} hover:border-[#ec5b13]/50 hover:bg-[#ec5b13]/5 transition-all group backdrop-blur-md shadow-2xl relative overflow-hidden`}
             >
-              <Icon size={20} className={`${color} mt-0.5 shrink-0 group-hover:scale-110 transition-transform`} />
-              <div>
-                <p className={`text-sm font-bold ${color} mb-1`}>{title}</p>
-                <p className="text-xs text-slate-500 leading-relaxed">{desc}</p>
+              <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full blur-3xl group-hover:bg-[#ec5b13]/20 transition-colors pointer-events-none"></div>
+              <Icon size={24} className={`${color} mt-0.5 shrink-0 group-hover:scale-110 transition-transform relative z-10`} />
+              <div className="relative z-10">
+                <p className={`text-base font-bold uppercase tracking-widest ${color} mb-1.5`}>{title}</p>
+                <p className="text-xs text-slate-500 font-serif italic leading-relaxed">{desc}</p>
               </div>
             </Link>
           ))}

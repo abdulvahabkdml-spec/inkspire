@@ -43,7 +43,7 @@ export default function SiteSettingsPage() {
   }
 
   return (
-    <main className="px-10 py-10">
+    <main className="p-5 md:p-10 w-full max-w-[100vw] overflow-hidden">
       <div className="flex items-center justify-between mb-12">
         <div>
           <h2 className="text-3xl font-serif font-bold text-white flex items-center gap-4">

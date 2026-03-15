@@ -1,10 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 
-export async function GET() {
+export async function GET(req: NextRequest) {
   try {
+    const { searchParams } = new URL(req.url);
+    const article = searchParams.get('article');
     const comments = await prisma.comment.findMany({
-      where: { status: 'Pending' },
+      where: article ? { article, status: 'Approved' } : { status: 'Pending' },
       orderBy: { createdAt: 'desc' },
     });
     return NextResponse.json({ success: true, data: comments });
@@ -22,7 +24,7 @@ export async function POST(req: NextRequest) {
         content: body.content,
         article: body.article || '',
         date: new Date().toLocaleDateString(),
-        status: 'Pending',
+        status: 'Approved', // Auto-approve to remove the need for moderation as requested
       },
     });
     return NextResponse.json({ success: true, data: comment }, { status: 201 });

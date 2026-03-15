@@ -81,3 +81,62 @@
   display: block;
 }
 
+/* Negative-space section wrapper used by FeaturedPortrait, StoriesGrid, QuoteSection */
+.negative-space-section {
+  padding-top: 5rem;
+  padding-bottom: 5rem;
+  max-width: 80rem;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+
+/* Zen mode: hide UI chrome elements when zen-active is on body */
+.zen-active .zen-hide {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.5s ease;
+}
+
+/* Sepia reading theme - ensure headings and body text remain readable */
+.sepia h1,
+.sepia h2,
+.sepia h3,
+.sepia h4 {
+  color: #2c1f0e !important;
+}
+.sepia .prose {
+  color: #433422;
+}
+.sepia .prose p,
+.sepia .prose li {
+  color: #433422;
+}
+
+/* Article prose improvements */
+.prose {
+  font-size: var(--reader-font-size, 1.125rem) !important;
+}
+.prose p, .prose li, .prose blockquote {
+  font-size: inherit;
+}
+.poetry-format {
+  @apply flex flex-col items-center text-center italic;
+}
+.poetry-format p {
+  margin-bottom: 2em !important;
+  white-space: pre-line;
+  color: inherit;
+  line-height: 2.2;
+  font-size: 1.2rem;
+  width: 100%;
+}
+.prose h2 { margin-top: 2.5em; margin-bottom: 1em; }
+.prose h3 { margin-top: 2em; margin-bottom: 0.75em; }
+.prose p { margin-bottom: 1.5em; }
+.prose blockquote {
+  border-left: 3px solid #ec5b13;
+  padding-left: 1.25rem;
+  font-style: italic;
+}

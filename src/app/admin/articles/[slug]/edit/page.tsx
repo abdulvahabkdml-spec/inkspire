@@ -7,11 +7,11 @@ import { ArrowLeft, Save, Eye, Loader2, Image as ImageIcon } from 'lucide-react'
 import { getArticleBySlug, updateArticle, Article, getTags } from '@/lib/api';
 import MediaSelector from '@/components/admin/MediaSelector';
 
-const CONTENT_TYPES = ['Articles', 'Fiction', 'Voices'];
+const CONTENT_TYPES = ['Articles', 'Fiction', 'Voices', 'Mythos'];
 const STATUSES = ['Draft', 'Published', 'Scheduled'];
 const DEFAULT_TAGS = [
   '#QuranicStudy', '#Sufism', '#Literature', '#Theology',
-  '#Kalam', '#History', '#Poetry', '#Opinion',
+  '#History', '#Poetry', '#Opinion',
 ];
 
 export default function EditArticlePage() {
@@ -30,6 +30,7 @@ export default function EditArticlePage() {
     status: 'Draft',
     imageUrl: '',
     lang: 'en',
+    showOnHomepage: true,
   });
   const [tags, setTags] = useState<string[]>([]);
   const [saved, setSaved] = useState(false);
@@ -64,6 +65,7 @@ export default function EditArticlePage() {
           status: article.status,
           imageUrl: article.imageUrl,
           lang: 'en',
+          showOnHomepage: article.showOnHomepage !== false,
         });
         setTags(article.tags || []);
       }
@@ -72,7 +74,7 @@ export default function EditArticlePage() {
     loadArticle();
   }, [slug]);
 
-  const handleChange = (field: string, value: string) => {
+  const handleChange = (field: string, value: any) => {
     setForm(prev => ({ ...prev, [field]: value }));
     setSaved(false);
   };
@@ -85,17 +87,20 @@ export default function EditArticlePage() {
 
     setIsSaving(true);
     
+    // Explicitly destructure form to ensure we send correct fields
+    const { type, ...rest } = form;
+    
     const success = await updateArticle(slug, {
-      ...form,
+      ...rest,
+      category: type,
       tags,
-      category: form.type as any,
-      status: form.status as any,
     });
 
     if (success) {
       setSaved(true);
       setTimeout(() => {
         router.push('/admin');
+        router.refresh();
       }, 1500);
     } else {
       alert('Failed to update article. Please check your connection or API token.');
@@ -114,7 +119,7 @@ export default function EditArticlePage() {
   return (
     <div className="min-h-screen bg-[#0F0F0F] text-white">
       {/* Top bar */}
-      <div className="sticky top-0 z-50 bg-black border-b border-white/5 px-8 py-4 flex items-center justify-between">
+      <div className="sticky top-0 z-50 bg-black border-b border-white/5 p-4 md:px-8 md:py-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div className="flex items-center gap-4">
           <Link href="/admin" className="flex items-center gap-2 text-slate-500 hover:text-white text-sm transition-colors">
             <ArrowLeft size={16} />
@@ -124,7 +129,7 @@ export default function EditArticlePage() {
           <span className="text-sm font-serif">Edit Entry: {slug}</span>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex flex-wrap items-center gap-2 sm:gap-3 w-full sm:w-auto">
           <select
             value={form.lang}
             onChange={(e) => handleChange('lang', e.target.value)}
@@ -153,15 +158,15 @@ export default function EditArticlePage() {
       </div>
 
       {/* Content */}
-      <div className="max-w-5xl mx-auto px-8 pb-12 grid grid-cols-3 gap-8">
+      <div className="max-w-5xl w-full mx-auto p-4 md:p-8 pb-12 grid grid-cols-1 lg:grid-cols-3 gap-8 overflow-hidden">
         {/* Editor (left) */}
-        <div className="col-span-2 flex flex-col gap-6">
+        <div className="lg:col-span-2 flex flex-col gap-6 w-full max-w-full overflow-hidden">
           <input
             type="text"
             placeholder="Article Title..."
             value={form.title}
             onChange={(e) => handleChange('title', e.target.value)}
-            className="w-full bg-transparent border-b border-white/10 text-white text-4xl font-serif font-bold py-3 outline-none placeholder-white/20 focus:border-[#ec5b13] transition-colors"
+            className="w-full bg-transparent border-b border-white/10 text-white text-2xl md:text-3xl lg:text-4xl font-serif font-bold py-3 outline-none placeholder-white/20 focus:border-[#ec5b13] transition-colors"
           />
           <textarea
             placeholder="Write a short excerpt..."
@@ -189,7 +194,7 @@ export default function EditArticlePage() {
             {/* Content Type */}
             <div className="space-y-3">
               <label className="text-[10px] text-slate-500 uppercase tracking-widest block font-bold">Content Architecture</label>
-              <div className="grid grid-cols-3 gap-2">
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-2">
                 {CONTENT_TYPES.map(t => (
                   <button
                     key={t}
@@ -204,6 +209,20 @@ export default function EditArticlePage() {
                     {t}
                   </button>
                 ))}
+              </div>
+              
+              <div className="mt-4 flex items-center justify-between p-4 bg-black/30 border border-white/5 rounded-xl">
+                <div>
+                  <p className="text-[10px] text-white uppercase tracking-widest font-bold">Show on Homepage</p>
+                  <p className="text-[9px] text-slate-500 mt-1 uppercase tracking-wider">Display this entry in frontend homepage sections.</p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setForm(prev => ({ ...prev, showOnHomepage: !prev.showOnHomepage }))}
+                  className={`relative w-11 h-6 rounded-full transition-colors ${form.showOnHomepage ? 'bg-[#ec5b13]' : 'bg-slate-700'}`}
+                >
+                  <span className={`absolute top-1 bottom-1 w-4 bg-white rounded-full transition-all ${form.showOnHomepage ? 'left-[calc(100%-1.25rem)]' : 'left-1'}`}></span>
+                </button>
               </div>
             </div>
 

@@ -25,14 +25,23 @@ export async function PUT(req: NextRequest) {
     const body = await req.json();
     let settings = await prisma.siteSettings.findFirst();
     
+    const updateData = {
+      siteName: body.siteName,
+      description: body.description,
+      contactEmail: body.contactEmail,
+      socialTwitter: body.socialTwitter,
+      socialInstagram: body.socialInstagram,
+      primaryColor: body.primaryColor,
+    };
+
     if (settings) {
       settings = await prisma.siteSettings.update({
         where: { id: settings.id },
-        data: body,
+        data: updateData,
       });
     } else {
       settings = await prisma.siteSettings.create({
-        data: body,
+        data: updateData,
       });
     }
     

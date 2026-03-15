@@ -11,10 +11,10 @@ import {
 
 const NAV_ITEMS = [
   { icon: LayoutDashboard, label: 'Dashboard',          href: '/admin' },
-  { icon: FileText,        label: 'Articles',           href: '/admin' },
+  { icon: FileText,        label: 'All Articles',       href: '/admin/articles' },
   { icon: PenTool,          label: 'New Article',        href: '/admin/articles/new' },
   { icon: Mic2,            label: 'Voices Editor',      href: '/admin/voices' },
-  { icon: Star,            label: 'Dual-Feature Hero',  href: '/admin/hero' },
+  { icon: Star,            label: 'Homepage Featured',  href: '/admin/hero' },
   { icon: Tags,            label: 'Tag Manager',        href: '/admin/tags' },
   { icon: ImageIcon,       label: 'Media Library',      href: '/admin/media' },
   { icon: MessageSquare,   label: 'Comments',           href: '/admin/comments' },
@@ -29,6 +29,7 @@ export default function AdminLayoutClient({
   const router = useRouter();
   const pathname = usePathname();
   const [isSplit, setIsSplit] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const handleLogout = async () => {
     await fetch('/api/logout', { method: 'POST' });
@@ -37,11 +38,36 @@ export default function AdminLayoutClient({
 
   return (
     <div className="min-h-screen bg-[#0F0F0F] text-white flex">
-      <aside className="w-64 min-h-screen bg-black border-r border-white/5 flex flex-col py-8 px-5 fixed top-0 left-0 z-40">
-        <div className="mb-12">
-          <h1 className="font-serif text-xl font-bold tracking-tighter uppercase text-white">Historia</h1>
-          <div className="h-0.5 w-8 bg-white/20 mt-2"></div>
-          <p className="text-slate-500 text-[10px] uppercase tracking-[0.3em] font-bold mt-4">Command Center</p>
+      {/* Mobile Top Bar */}
+      <div className="md:hidden fixed top-0 left-0 right-0 h-16 bg-black z-30 flex items-center justify-between px-5 border-b border-white/10">
+        <h1 className="font-serif text-lg font-bold tracking-widest uppercase text-white">Historia</h1>
+        <button 
+          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          className="p-2 bg-white/5 rounded-lg text-white"
+        >
+          <LayoutDashboard size={18} />
+        </button>
+      </div>
+
+      {/* Sidebar Overlay for Mobile */}
+      {mobileMenuOpen && (
+        <div 
+          className="md:hidden fixed inset-0 bg-black/80 z-40 backdrop-blur-sm"
+          onClick={() => setMobileMenuOpen(false)}
+        />
+      )}
+
+      {/* Sidebar */}
+      <aside className={`w-64 min-h-screen bg-black border-r border-white/5 flex flex-col py-8 px-5 fixed top-0 left-0 z-50 transition-transform duration-300 md:translate-x-0 ${mobileMenuOpen ? 'translate-x-0' : '-translate-x-full'}`}>
+        <div className="mb-12 flex items-center justify-between">
+          <div>
+            <h1 className="font-serif text-xl font-bold tracking-tighter uppercase text-white">Historia</h1>
+            <div className="h-0.5 w-8 bg-white/20 mt-2"></div>
+            <p className="text-slate-500 text-[10px] uppercase tracking-[0.3em] font-bold mt-4">Command Center</p>
+          </div>
+          <button onClick={() => setMobileMenuOpen(false)} className="md:hidden text-white/50 hover:text-white">
+            <X size={20} />
+          </button>
         </div>
 
         <nav className="flex flex-col gap-1 flex-1 overflow-y-auto no-scrollbar pb-6">
@@ -87,14 +113,15 @@ export default function AdminLayoutClient({
         </div>
       </aside>
 
-      <div className={`flex-1 ml-64 min-h-screen transition-all duration-500 ease-in-out ${isSplit ? 'mr-[50%]' : ''}`}>
+      {/* Main Content Area */}
+      <div className={`flex-1 md:ml-64 mt-16 md:mt-0 min-h-screen transition-all duration-500 ease-in-out ${isSplit ? 'hidden xl:block xl:mr-[400px] 2xl:mr-[500px]' : ''}`}>
         {children}
       </div>
 
       {/* Live Split Preview Pane */}
       <div 
         className={`fixed top-0 right-0 h-screen bg-black border-l border-white/10 shadow-2xl z-50 flex flex-col transition-all duration-500 ease-in-out transform ${
-          isSplit ? 'w-[50%] translate-x-0' : 'w-[50%] translate-x-full'
+          isSplit ? 'w-full xl:w-[400px] 2xl:w-[500px] translate-x-0' : 'w-full xl:w-[400px] 2xl:w-[500px] translate-x-full'
         }`}
       >
         <div className="h-16 shrink-0 bg-black flex items-center justify-between px-6 border-b border-white/10">
