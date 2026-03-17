@@ -19,7 +19,7 @@ export default function SiteFooter() {
               </div>
               <div className="flex flex-col leading-none">
                 <span className="text-[9px] font-black tracking-[0.25em] text-[#2E5BFF] uppercase">THE</span>
-                <span className="text-3xl md:text-4xl font-black tracking-tight text-black dark:text-white lg:tracking-[-0.05em]">HISTORIA</span>
+                <span className="text-3xl md:text-4xl font-black tracking-tight text-black dark:text-white lg:tracking-[-0.05em]">INKSPIRE</span>
               </div>
             </Link>
             <p className="text-slate-500 dark:text-slate-400 text-lg font-serif italic max-w-sm leading-relaxed font-light">
@@ -61,7 +61,7 @@ export default function SiteFooter() {
         
         <div className="flex flex-col md:flex-row justify-between items-center gap-6 pt-12 border-t border-black/5 dark:border-white/5">
           <div className="text-[10px] text-slate-400 font-bold">
-            © {new Date().getFullYear()} THE HISTORIA. {'ALL RIGHTS RESERVED.'}
+            © {new Date().getFullYear()} THE INKSPIRE. {'ALL RIGHTS RESERVED.'}
           </div>
           
           <div className="flex gap-8 text-[10px] font-bold text-slate-400">

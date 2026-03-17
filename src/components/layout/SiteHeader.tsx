@@ -183,11 +183,28 @@ export default function SiteHeader() {
                   className="flex items-center font-black font-sans text-3xl sm:text-4xl md:text-5xl lg:text-6xl"
                   style={{ letterSpacing: '-0.02em', lineHeight: 1 }}
                 >
-                  {/* HIS — Matte Black */}
-                  <span className="text-[#1A1A1A] dark:text-slate-100 transition-colors">HIS</span>
+                  {/* IN — Matte Black */}
+                  <span className="text-[#1A1A1A] dark:text-slate-100 transition-colors">IN</span>
 
-                  {/* TORIA — Electric Cobalt Blue */}
-                  <span className="text-[#2E5BFF] transition-colors">TORIA</span>
+                  {/* Reversed K — Electric Cobalt Blue */}
+                  <div
+                    className="inline-flex items-center justify-center transform scale-x-[-1]"
+                    style={{ height: '1em', width: '0.65em', marginLeft: '0.05em', marginRight: '0.05em' }}
+                  >
+                    <svg
+                      viewBox="0 0 56 72"
+                      aria-label="K"
+                      className="h-full w-full overflow-visible"
+                      fill="none"
+                    >
+                      <rect x="0" y="0" width="14" height="72" fill="#2E5BFF" />
+                      <path d="M 14,36 L 56,0 L 56,18 L 28,42 Z" fill="#2E5BFF" />
+                      <path d="M 14,36 L 56,72 L 56,54 L 28,30 Z" fill="#2E5BFF" />
+                    </svg>
+                  </div>
+
+                  {/* SPIRE — Electric Cobalt Blue */}
+                  <span className="text-[#2E5BFF] transition-colors">SPIRE</span>
                 </div>
               </Link>
             </div>
@@ -235,7 +252,7 @@ export default function SiteHeader() {
                 </div>
                 <div className="flex flex-col leading-none">
                   <span className="text-[8px] font-black tracking-[0.25em] text-[#2E5BFF] uppercase">THE</span>
-                  <span className="text-xl font-black tracking-tight text-black dark:text-white">HISTORIA</span>
+                  <span className="text-xl font-black tracking-tight text-black dark:text-white">INKSPIRE</span>
                 </div>
               </div>
               <button onClick={() => setMenuOpen(false)} className="p-2 hover:bg-black/5 dark:hover:bg-white/5 rounded-full transition-all">

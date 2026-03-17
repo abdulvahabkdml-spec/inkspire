@@ -2,8 +2,8 @@ import { MetadataRoute } from 'next';
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: 'THE HISTORIA — Digital Magazine',
-    short_name: 'Historia',
+    name: 'THE INKSPIRE — Digital Magazine',
+    short_name: 'Inkspire',
     description: 'A premium digital sanctuary for Islamic literature',
     start_url: '/',
     display: 'standalone',
