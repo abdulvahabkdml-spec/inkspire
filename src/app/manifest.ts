@@ -2,7 +2,7 @@ import { MetadataRoute } from 'next';
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: 'THE INKSPIRE — Digital Magazine',
+    name: 'THE INKSPIRE - Digital Magazine',
     short_name: 'Inkspire',
     description: 'A premium digital sanctuary for Islamic literature',
     start_url: '/',
