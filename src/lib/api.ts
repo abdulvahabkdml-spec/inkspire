@@ -18,24 +18,9 @@ export interface Article {
   showOnHomepage?: boolean;
 }
 
-// ── SEED DATA ─────────────────────────────────────────────────────
-
-export const MOCK_ARTICLES: Article[] = [
-  {
-    slug: 'architecture-of-silence',
-    title: 'The Architecture of Silence: Finding Stillness in the Modern Age',
-    excerpt: 'An exploration into how traditional Islamic geometric patterns invoke a sense of contemplation and inner peace amidst relentless digital noise.',
-    content: `<p class="mb-8"><span class="float-left text-7xl leading-none pr-3 pt-2 font-serif font-bold" style="color:#ec5b13">I</span>n the relentless cadence of modernity, silence is often misconstrued as an absence...</p>`,
-    category: 'Articles',
-    author: 'Dr. Ayesha Rahman',
-    date: 'March 15, 2026',
-    imageUrl: 'https://images.unsplash.com/photo-1542385151-efd9000785a0?q=80&w=2574&auto=format&fit=crop',
-    readingTime: '5 min read',
-    status: 'Published',
-    tags: ['#Theology', '#Sufism'],
-  },
-  // ... (keeping MOCK_ARTICLES for fallback)
-];
+// MOCK_ARTICLES is kept minimal — only used as an absolute last-resort when the database
+// is completely unreachable. Return empty so users see "no articles" rather than fake content.
+export const MOCK_ARTICLES: Article[] = [];
 
 // ── STRAPI CONFIG ────────────────────────────────────────────────
 
@@ -93,13 +78,12 @@ async function clientFetch<T>(path: string, options?: RequestInit): Promise<T> {
 
 // ── ARTICLES (Hybrid Strapi + MongoDB) ────────────────────────────
 
-export async function getAllArticles(locale?: string): Promise<Article[]> {
+export async function getAllArticles(): Promise<Article[]> {
   // If Strapi is configured, it takes priority for Articles
   if (STRAPI_URL) {
     try {
       const result = await fetchStrapi<{ data: any[] }>('/articles', { 
-        populate: '*',
-        locale: locale || 'en'
+        populate: '*'
       });
       return result.data.map(mapStrapiToArticle);
     } catch (error) {
@@ -125,13 +109,12 @@ export async function getAllArticles(locale?: string): Promise<Article[]> {
   }
 }
 
-export async function getArticleBySlug(slug: string, locale?: string): Promise<Article | undefined> {
+export async function getArticleBySlug(slug: string): Promise<Article | undefined> {
   if (STRAPI_URL) {
     try {
       const result = await fetchStrapi<{ data: any[] }>('/articles', { 
         'filters[slug][$eq]': slug,
-        'populate': '*',
-        'locale': locale || 'en'
+        'populate': '*'
       });
       if (result.data.length > 0) return mapStrapiToArticle(result.data[0]);
     } catch (error) {
@@ -156,13 +139,12 @@ export async function getArticleBySlug(slug: string, locale?: string): Promise<A
   }
 }
 
-export async function getArticlesByCategory(categoryName: string, locale?: string): Promise<Article[]> {
+export async function getArticlesByCategory(categoryName: string): Promise<Article[]> {
   if (STRAPI_URL) {
     try {
       const result = await fetchStrapi<{ data: any[] }>('/articles', { 
         'filters[category][$equalsIgnoreCase]': categoryName,
-        'populate': '*',
-        'locale': locale || 'en'
+        'populate': '*'
       });
       return result.data.map(mapStrapiToArticle);
     } catch (error) {
@@ -327,6 +309,19 @@ export async function saveVoice(voice: any): Promise<boolean> {
   }
 }
 
+export async function updateVoice(id: string, voice: any): Promise<boolean> {
+  try {
+    await clientFetch(`/api/voices/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(voice),
+    });
+    return true;
+  } catch {
+    return false;
+  }
+}
+
 export async function deleteVoice(id: any): Promise<boolean> {
   try {
     await clientFetch(`/api/voices/${id}`, { method: 'DELETE' });
@@ -405,7 +400,7 @@ export async function getSiteSettings(): Promise<any> {
   if (typeof window === 'undefined') {
     try {
       const { dbGetSiteSettings } = await import('@/lib/server-db');
-      return await dbGetSiteSettings({});
+      return await dbGetSiteSettings();
     } catch {
       return {};
     }

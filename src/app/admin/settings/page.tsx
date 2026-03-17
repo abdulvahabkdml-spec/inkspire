@@ -6,12 +6,12 @@ import { getSiteSettings, saveSiteSettings } from '@/lib/api';
 
 export default function SiteSettingsPage() {
   const [settings, setSettings] = useState({
-    siteName: 'THE HISTORIA',
+    siteName: 'THE INKSPIRE',
     description: 'A Digital Magazine exploration into the intersection of faith, art, and history.',
-    contactEmail: 'editor@thehistoria.com',
+    contactEmail: 'editor@theinkspire.com',
     socialTwitter: '',
     socialInstagram: '',
-    primaryColor: '#ec5b13',
+    primaryColor: '#2E5BFF',
   });
 
   const [saved, setSaved] = useState(false);
@@ -47,14 +47,14 @@ export default function SiteSettingsPage() {
       <div className="flex items-center justify-between mb-12">
         <div>
           <h2 className="text-3xl font-serif font-bold text-white flex items-center gap-4">
-            <Settings className="text-[#ec5b13]" size={28} />
+            <Settings className="text-[#2E5BFF]" size={28} />
             Site Configuration
           </h2>
           <p className="text-slate-500 text-sm mt-2 uppercase tracking-[0.2em] font-bold text-[10px]">Global Magazine Identity & Infrastructure</p>
         </div>
         <button
           onClick={handleSave}
-          className="group flex items-center gap-3 bg-white text-black px-8 py-4 rounded-2xl font-bold uppercase tracking-[0.2em] text-[10px] hover:bg-[#ec5b13] hover:text-white transition-all shadow-2xl"
+          className="group flex items-center gap-3 bg-white text-black px-8 py-4 rounded-2xl font-bold uppercase tracking-[0.2em] text-[10px] hover:bg-[#2E5BFF] hover:text-white transition-all shadow-2xl"
         >
           <Save size={16} strokeWidth={3} className="group-hover:scale-110 transition-transform" />
           {saved ? 'Configuration Saved' : 'Update Records'}
@@ -65,7 +65,7 @@ export default function SiteSettingsPage() {
         {/* Identity */}
         <div className="bg-white/5 border border-white/10 rounded-2xl p-8 space-y-8 shadow-2xl backdrop-blur-sm">
           <div className="flex items-center gap-3 border-b border-white/5 pb-4">
-            <div className="w-1 h-4 bg-[#ec5b13] rounded-full"></div>
+            <div className="w-1 h-4 bg-[#2E5BFF] rounded-full"></div>
             <h3 className="font-bold text-xs uppercase tracking-[0.2em] text-white/50">General Identity</h3>
           </div>
           
@@ -76,7 +76,7 @@ export default function SiteSettingsPage() {
                 type="text"
                 value={settings.siteName}
                 onChange={e => setSettings({...settings, siteName: e.target.value})}
-                className="w-full bg-black/40 border border-white/10 text-white px-5 py-4 rounded-xl outline-none focus:border-[#ec5b13] transition-colors font-bold uppercase tracking-widest text-[11px]"
+                className="w-full bg-black/40 border border-white/10 text-white px-5 py-4 rounded-xl outline-none focus:border-[#2E5BFF] transition-colors font-bold uppercase tracking-widest text-[11px]"
               />
             </div>
 
@@ -86,7 +86,7 @@ export default function SiteSettingsPage() {
                 value={settings.description}
                 onChange={e => setSettings({...settings, description: e.target.value})}
                 rows={4}
-                className="w-full bg-black/40 border border-white/10 text-white px-5 py-4 rounded-xl outline-none focus:border-[#ec5b13] transition-colors resize-none text-sm font-serif leading-relaxed"
+                className="w-full bg-black/40 border border-white/10 text-white px-5 py-4 rounded-xl outline-none focus:border-[#2E5BFF] transition-colors resize-none text-sm font-serif leading-relaxed"
               />
             </div>
 
@@ -96,7 +96,7 @@ export default function SiteSettingsPage() {
                 type="email"
                 value={settings.contactEmail}
                 onChange={e => setSettings({...settings, contactEmail: e.target.value})}
-                className="w-full bg-black/40 border border-white/10 text-white px-5 py-4 rounded-xl outline-none focus:border-[#ec5b13] transition-colors font-medium"
+                className="w-full bg-black/40 border border-white/10 text-white px-5 py-4 rounded-xl outline-none focus:border-[#2E5BFF] transition-colors font-medium"
               />
             </div>
           </div>
@@ -106,7 +106,7 @@ export default function SiteSettingsPage() {
         <div className="space-y-8">
           <div className="bg-white/5 border border-white/10 rounded-2xl p-8 space-y-8 shadow-2xl backdrop-blur-sm">
             <div className="flex items-center gap-3 border-b border-white/5 pb-4">
-              <div className="w-1 h-4 bg-[#ec5b13] rounded-full"></div>
+              <div className="w-1 h-4 bg-[#2E5BFF] rounded-full"></div>
               <h3 className="font-bold text-xs uppercase tracking-[0.2em] text-white/50">Social Presence</h3>
             </div>
             
@@ -118,7 +118,7 @@ export default function SiteSettingsPage() {
                   placeholder="@username"
                   value={settings.socialTwitter}
                   onChange={e => setSettings({...settings, socialTwitter: e.target.value})}
-                  className="w-full bg-black/40 border border-white/10 text-white px-5 py-4 rounded-xl outline-none focus:border-[#ec5b13] transition-colors font-mono text-xs"
+                  className="w-full bg-black/40 border border-white/10 text-white px-5 py-4 rounded-xl outline-none focus:border-[#2E5BFF] transition-colors font-mono text-xs"
                 />
               </div>
 
@@ -129,7 +129,7 @@ export default function SiteSettingsPage() {
                   placeholder="@username"
                   value={settings.socialInstagram}
                   onChange={e => setSettings({...settings, socialInstagram: e.target.value})}
-                  className="w-full bg-black/40 border border-white/10 text-white px-5 py-4 rounded-xl outline-none focus:border-[#ec5b13] transition-colors font-mono text-xs"
+                  className="w-full bg-black/40 border border-white/10 text-white px-5 py-4 rounded-xl outline-none focus:border-[#2E5BFF] transition-colors font-mono text-xs"
                 />
               </div>
             </div>
@@ -137,7 +137,7 @@ export default function SiteSettingsPage() {
 
           <div className="bg-white/5 border border-white/10 rounded-2xl p-8 space-y-8 shadow-2xl backdrop-blur-sm">
             <div className="flex items-center gap-3 border-b border-white/5 pb-4">
-              <div className="w-1 h-4 bg-[#ec5b13] rounded-full"></div>
+              <div className="w-1 h-4 bg-[#2E5BFF] rounded-full"></div>
               <h3 className="font-bold text-xs uppercase tracking-[0.2em] text-white/50">Brand Foundation</h3>
             </div>
             
@@ -150,7 +150,7 @@ export default function SiteSettingsPage() {
               />
               <div>
                 <p className="text-xs font-bold text-white uppercase tracking-[0.2em] mb-1">Primary Accent</p>
-                <p className="text-xs text-[#ec5b13] font-mono font-bold">{settings.primaryColor}</p>
+                <p className="text-xs text-[#2E5BFF] font-mono font-bold">{settings.primaryColor}</p>
                 <p className="text-[9px] text-slate-600 uppercase tracking-widest mt-2">Applied to buttons, links & accents</p>
               </div>
             </div>

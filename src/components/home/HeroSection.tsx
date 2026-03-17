@@ -1,13 +1,11 @@
 import Image from 'next/image';
 import { getAllArticles, getHeroConfig } from '@/lib/api';
-import { Link } from '@/navigation';
-import { getTranslations } from 'next-intl/server';
+import Link from 'next/link';
 import { unstable_noStore } from 'next/cache';
 
-export default async function HeroSection({ locale }: { locale: string }) {
+export default async function HeroSection() {
   unstable_noStore(); // Always fetch fresh data — no caching on the hero
-  const t = await getTranslations('home.hero');
-  const articles = await getAllArticles(locale);
+    const articles = await getAllArticles();
   const heroConfig = await getHeroConfig();
   
   const mainFeature = articles.find(a => a.slug === heroConfig.articleSlug) || articles[0];
@@ -21,19 +19,26 @@ export default async function HeroSection({ locale }: { locale: string }) {
 
   if (!mainFeature) {
     return (
-      <div className="py-20 text-center border border-dashed border-white/20 rounded-xl">
-        <p className="text-slate-500 uppercase tracking-widest text-sm">No featured articles found</p>
+      <div className="py-32 text-center flex flex-col items-center gap-6 border border-dashed border-black/10 dark:border-white/10 rounded-3xl">
+        <div className="w-16 h-16 rounded-full bg-[#2E5BFF]/10 flex items-center justify-center">
+          <div className="w-6 h-6 rounded-full border-2 border-[#2E5BFF] border-t-transparent animate-spin" />
+        </div>
+        <div>
+          <p className="font-serif italic text-slate-500 dark:text-slate-400 text-lg mb-1">The archives are being summoned…</p>
+          <p className="text-[10px] font-bold text-slate-400">Connection may be slow. Please wait or refresh.</p>
+        </div>
       </div>
     );
   }
 
   const displayTitle = heroConfig.customTitle || mainFeature.title;
   const displayExcerpt = heroConfig.customExcerpt || mainFeature.excerpt;
+  const isMalayalam = /[\u0D00-\u0D7F]/.test(displayTitle);
 
   return (
-    <section className="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-20">
+    <section className="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-12 pt-12">
       <Link href={`/article/${mainFeature.slug}`} className="lg:col-span-8 group cursor-pointer block">
-        <div className="relative overflow-hidden rounded-xl aspect-[16/9] mb-6">
+        <div className="relative overflow-hidden rounded-xl aspect-[4/5] md:aspect-[16/9] mb-6">
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent z-10 transition-opacity duration-500 group-hover:opacity-90"></div>
           <Image 
             alt={displayTitle}
@@ -43,13 +48,13 @@ export default async function HeroSection({ locale }: { locale: string }) {
             className="w-full h-full object-cover transition-transform duration-[1.5s] ease-out group-hover:scale-110" 
             src={mainFeature.imageUrl || 'https://images.unsplash.com/photo-1542385151-efd9000785a0?q=80&w=2574'}
           />
-          <div className="absolute bottom-0 left-0 p-8 z-20 text-white max-w-2xl">
-            <span className="bg-black text-[10px] font-bold uppercase tracking-[0.2em] px-3 py-1 rounded-full mb-4 inline-block">{t('featured')}</span>
-            <h2 className="text-4xl md:text-5xl font-bold font-serif mb-4 leading-tight text-white transition-colors duration-300">{displayTitle}</h2>
-            <p className="text-lg text-slate-200 mb-6 font-serif italic line-clamp-2 opacity-90">{displayExcerpt}</p>
-            <div className="flex items-center gap-4">
-               <div className="w-10 h-[1px] bg-white/40 group-hover:w-16 group-hover:bg-white transition-all duration-500"></div>
-               <p className="text-[10px] font-bold uppercase tracking-[0.2em]">{mainFeature.author}</p>
+          <div className="absolute bottom-0 left-0 p-6 md:p-8 z-20 text-white max-w-2xl">
+            <span className="bg-black text-[9px] md:text-[10px] font-bold px-3 py-1 rounded-full mb-3 md:mb-4 inline-block">{'Featured Cover'}</span>
+            <h2 className="text-[1.25rem] sm:text-2xl md:text-[2rem] font-bold mb-3 md:mb-4 leading-tight text-white transition-colors duration-300" style={{ fontFamily: isMalayalam ? '"Gayathri", sans-serif' : 'var(--font-heading)', fontWeight: isMalayalam ? 700 : undefined }}>{displayTitle}</h2>
+            <p className="text-sm sm:text-base md:text-lg text-slate-200 mb-5 md:mb-6 font-serif italic line-clamp-3 md:line-clamp-2 opacity-90">{displayExcerpt}</p>
+            <div className="flex items-center gap-3 md:gap-4">
+               <div className="w-6 md:w-10 h-[1px] bg-white/40 group-hover:w-12 md:group-hover:w-16 group-hover:bg-white transition-all duration-500"></div>
+               <p className="text-[9px] md:text-[10px] font-bold">{mainFeature.author}</p>
             </div>
           </div>
         </div>
@@ -65,18 +70,18 @@ export default async function HeroSection({ locale }: { locale: string }) {
                 fill
                 sizes="(max-width: 1024px) 100vw, 33vw"
                 className="w-full h-full object-cover transition-transform duration-[2s] group-hover:scale-105" 
-                src={secondFeature.imageUrl}
+                src={secondFeature.imageUrl || 'https://images.unsplash.com/photo-1542385151-efd9000785a0?q=80&w=2574'}
               />
-              <div className="absolute top-4 right-4 bg-white/90 dark:bg-slate-900/90 px-3 py-1 rounded text-[10px] font-bold tracking-widest uppercase z-20 text-black dark:text-white">
+              <div className="absolute top-4 right-4 bg-white/90 dark:bg-slate-900/90 px-3 py-1 rounded text-[10px] font-bold z-20 text-black dark:text-white">
                 {secondFeature.tags[0] || 'Perspective'}
               </div>
             </div>
-            <h3 className="text-2xl font-bold font-serif leading-snug group-hover:text-[#ec5b13] transition-colors duration-300 dark:text-white">{secondFeature.title}</h3>
+            <h3 className="text-2xl font-bold font-serif leading-snug group-hover:text-[#2E5BFF] transition-colors duration-300 dark:text-white">{secondFeature.title}</h3>
             <p className="text-slate-600 dark:text-slate-400 text-sm mt-3 line-clamp-2 leading-relaxed">{secondFeature.excerpt}</p>
           </Link>
         ) : (
           <div className="h-full border border-dashed border-white/10 rounded-xl flex items-center justify-center">
-             <p className="text-[10px] uppercase tracking-widest text-slate-700">Waiting for content...</p>
+             <p className="text-[10px] font-bold text-slate-700">Waiting for content...</p>
           </div>
         )}
       </div>

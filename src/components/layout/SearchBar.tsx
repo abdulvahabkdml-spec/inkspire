@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { Search, X, ArrowRight } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { Link } from '@/navigation';
+import Link from 'next/link';
 
 interface Article {
   slug: string;
@@ -93,7 +93,7 @@ export default function SearchBar({ onClose }: { onClose: () => void }) {
             <div className="max-h-[60vh] overflow-y-auto">
               {isLoading ? (
                 <div className="flex items-center justify-center p-12">
-                  <div className="w-5 h-5 border-2 border-[#ec5b13] border-t-transparent rounded-full animate-spin" />
+                  <div className="w-5 h-5 border-2 border-[#2E5BFF] border-t-transparent rounded-full animate-spin" />
                 </div>
               ) : results.length > 0 ? (
                 <ul className="py-3">
@@ -106,18 +106,18 @@ export default function SearchBar({ onClose }: { onClose: () => void }) {
                       >
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2 mb-1">
-                            <span className="text-[9px] font-black bg-[#ec5b13]/10 text-[#ec5b13] px-2 py-0.5 rounded uppercase tracking-widest">
+                            <span className="text-[9px] font-black bg-[#2E5BFF]/10 text-[#2E5BFF] px-2 py-0.5 rounded uppercase tracking-widest">
                               {article.category}
                             </span>
                           </div>
-                          <p className="font-serif font-bold text-black dark:text-white truncate group-hover:text-[#ec5b13] transition-colors">
+                          <p className="font-serif font-bold text-black dark:text-white truncate group-hover:text-[#2E5BFF] transition-colors">
                             {article.title}
                           </p>
                           <p className="text-sm text-slate-500 mt-1 line-clamp-1 font-serif italic">
                             {article.excerpt}
                           </p>
                         </div>
-                        <ArrowRight size={16} className="shrink-0 mt-1 text-slate-300 group-hover:text-[#ec5b13] transition-colors" />
+                        <ArrowRight size={16} className="shrink-0 mt-1 text-slate-300 group-hover:text-[#2E5BFF] transition-colors" />
                       </Link>
                     </li>
                   ))}

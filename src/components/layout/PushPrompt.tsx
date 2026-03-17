@@ -2,16 +2,14 @@
 
 import { useState, useEffect } from 'react';
 import { Bell, X } from 'lucide-react';
-import { useTranslations } from 'next-intl';
 
 export default function PushPrompt() {
   const [isVisible, setIsVisible] = useState(false);
-  const t = useTranslations('notifications');
-
+  
   useEffect(() => {
     // Show prompt after 5 seconds of reading
     const timer = setTimeout(() => {
-      const hasSeen = localStorage.getItem('historia_push_prompt');
+      const hasSeen = localStorage.getItem('inkspire_push_prompt');
       if (!hasSeen) {
         setIsVisible(true);
       }
@@ -22,13 +20,13 @@ export default function PushPrompt() {
 
   const handleDismiss = () => {
     setIsVisible(false);
-    localStorage.setItem('historia_push_prompt', 'dismissed');
+    localStorage.setItem('inkspire_push_prompt', 'dismissed');
   };
 
   const handleEnable = () => {
     alert("Push notifications enabled!");
     setIsVisible(false);
-    localStorage.setItem('historia_push_prompt', 'enabled');
+    localStorage.setItem('inkspire_push_prompt', 'enabled');
   };
 
   if (!isVisible) return null;
@@ -44,22 +42,22 @@ export default function PushPrompt() {
           <Bell className="text-white" size={24} />
         </div>
         <div>
-          <h4 className="font-serif font-bold text-2xl mb-2 tracking-tight">{t('title')}</h4>
+          <h4 className="font-serif font-bold text-2xl mb-2 tracking-tight">{'Stay Enlightened'}</h4>
           <p className="text-white/60 text-sm font-sans mb-8 leading-relaxed italic">
-            {t('description')}
+            {'Allow notifications to receive immediate alerts when new essays and poetry are published to the archives.'}
           </p>
           <div className="flex gap-4">
             <button
               onClick={handleEnable}
               className="flex-1 bg-white text-black px-6 py-3 text-[10px] font-bold uppercase tracking-[0.2em] rounded-full hover:bg-white/90 transition-all font-sans"
             >
-              {t('allow')}
+              {'Allow'}
             </button>
             <button
               onClick={handleDismiss}
               className="flex-1 px-6 py-3 text-[10px] font-bold uppercase tracking-[0.2em] text-white/40 hover:text-white transition-all font-sans"
             >
-              {t('later')}
+              {'Maybe Later'}
             </button>
           </div>
         </div>

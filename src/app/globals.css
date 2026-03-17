@@ -1,4 +1,6 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&family=Lora:ital,wght@0,400;0,700;1,400&family=Noto+Sans+Malayalam:wght@400;700&family=Noto+Serif+Malayalam:wght@400;700&family=Noto+Sans+Arabic:wght@400;700&family=Noto+Naskh+Arabic:wght@400;700&display=swap');
+@import url('https://smc.org.in/fonts/meera.css');
+@import url('https://smc.org.in/fonts/rachana.css');
+@import url('https://fonts.googleapis.com/css2?family=Anek+Malayalam:wdth,wght@75..125,100..800&family=Noto+Sans+Malayalam:wght@400;700&family=Manjari:wght@400;700&family=Gayathri:wght@400;700&family=Chilanka&family=Public+Sans:wght@700&family=EB+Garamond:wght@400..800&family=Lora:ital,wght@0,400;0,700;1,400&family=Crimson+Pro:wght@400;700&family=Tenor+Sans&family=Jost:wght@400;700&family=Inter:wght@400;500;700;900&family=Roboto:wght@400;500;700;900&family=Playfair+Display:wght@400..900&family=GFS+Didot&family=Noto+Sans+Arabic:wght@400;700&family=Noto+Naskh+Arabic:wght@400;700&display=swap');
 @import "tailwindcss";
 
 @theme {
@@ -7,24 +9,34 @@
   --color-background-dark: #111621;
   --color-slate-custom: #1e293b;
 
-  --font-sans: "Inter", "Noto Sans Arabic", "Noto Sans Malayalam", ui-sans-serif, system-ui, sans-serif;
-  --font-serif: "Lora", "Noto Naskh Arabic", "Noto Serif Malayalam", ui-serif, Georgia, Cambria, serif;
+  --font-sans: "Inter", "Roboto", "Noto Sans Arabic", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Inter", "Roboto", "Noto Sans Arabic", ui-sans-serif, system-ui, sans-serif;
   
-  --font-display: var(--font-sans);
+  --font-heading: "Playfair Display", serif;
+  --font-logo: "GFS Didot", serif;
+  --font-ml-heading: "Rachana", serif;
+  --font-ml-body: "Rachana", serif;
+  
+  /* English Magazine / TIME Style */
+  --font-en-headline: "Public Sans", sans-serif;
+  --font-en-body: "EB Garamond", serif;
+  --font-en-poetry-title: "Tenor Sans", sans-serif;
+  --font-en-poetry-body: "Crimson Pro", serif;
+  --font-en-caption: "Jost", sans-serif;
 }
 
 @variant dark (:where(.dark, .dark *) &);
 
 :root {
-  --background: #f6f6f8;
-  --background-rgb: 246, 246, 248;
-  --foreground: #0f172a;
+  --background: #FAFAF7;
+  --background-rgb: 250, 250, 247;
+  --foreground: #1C1C1E;
 }
 
 .dark {
-  --background: #111621;
-  --background-rgb: 17, 22, 33;
-  --foreground: #f1f5f9;
+  --background: #13141F;
+  --background-rgb: 19, 20, 31;
+  --foreground: #E8EBF0;
 }
 
 .sepia {
@@ -39,7 +51,12 @@
     @apply transition-colors duration-300;
   }
 
-  h1, h2, h3, h4 {
+  h1 {
+    font-family: var(--font-heading);
+    @apply text-slate-900 dark:text-white transition-colors duration-300;
+  }
+
+  h2, h3, h4 {
     font-family: var(--font-serif);
     @apply text-slate-900 dark:text-white transition-colors duration-300;
   }
@@ -51,6 +68,270 @@
   .content-area {
     font-size: var(--reader-font-size, 1.125rem);
   }
+}
+
+/* ─── Malayalam Language Typography ─────────────────────────────────────────
+   Targets content when page language is Malayalam (ml).
+────────────────────────────────────────────────────────────────────────── */
+
+/* 1. Magazine Layout (Standard) */
+/* Target specifically by lang on the article or html */
+article[lang="ml"] h1,
+article:lang(ml) h1,
+:lang(ml) h1 {
+  font-family: "Rachana", serif !important;
+  font-weight: 700 !important;
+  /* Precisely 40pt (approx 53.3px) at default font size (18px * 2.96 = 53.28px) */
+  font-size: calc(var(--reader-font-size, 18px) * 2.96) !important;
+  /* Leading 44pt-48pt for 40pt size is roughly 1.1x - 1.2x. Setting to 1.15x for unified look */
+  line-height: 1.15 !important;
+  letter-spacing: -0.015em !important;
+  text-transform: none !important;
+  text-align: left !important;
+  text-wrap: balance !important; /* Forces elegant 2-line distribution */
+  max-width: 100% !important; /* Optimized width to favor exactly 2 lines at default size */
+  margin-left: 0 !important;
+  margin-right: auto !important;
+  display: block !important;
+}
+
+
+
+
+
+
+
+:lang(ml) h2 {
+  font-family: "Rachana", serif !important;
+  font-weight: 700;
+  font-size: clamp(2rem, 5vw, 3rem) !important;
+  line-height: 1.1 !important;
+  letter-spacing: -0.01em !important;
+  text-transform: none;
+}
+
+
+:lang(ml) h3,
+:lang(ml) h4 {
+  font-family: "Rachana", serif !important;
+  font-weight: 700;
+}
+
+/* Standfirst / Intro */
+:lang(ml) .prose > p:first-of-type {
+  font-family: "Rachana", serif !important;
+  font-weight: 400;
+  font-size: 1.3em !important;
+  line-height: 1.6 !important;
+  color: var(--foreground);
+  opacity: 0.95;
+  margin-bottom: 2.5rem;
+}
+
+/* Multi-column Body Text (Magazine Standard) - REVERTED TO SINGLE COLUMN AS PER IMAGE 2 */
+article[lang="ml"] .prose,
+article[lang="ml"] .prose p,
+article[lang="ml"] .prose div {
+  font-family: "Rachana", serif !important;
+  font-size: var(--reader-font-size, 1.25rem) !important; 
+  /* Leading 1.6x for script clarity (Approx 16-18pt) */
+  line-height: 1.65 !important;
+  letter-spacing: 0.015em !important;
+  word-spacing: normal !important;
+  text-align: justify !important;
+  hyphens: auto !important;
+  margin-bottom: 1rem !important; /* Refined for pre-wrap compatibility */
+  display: block !important;
+  white-space: pre-wrap !important; /* Honor manual breaks and spacing */
+}
+
+/* Enforce Single Column for Body - SHARED FOR ALL LANGUAGES */
+.prose:not(.poetry-format) {
+  display: block !important;
+  column-count: 1 !important; 
+  max-width: 1000px !important; /* Premium wide column */
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+/* Page Margins (The "Frame") for Malayalam Articles */
+article[lang="ml"] {
+  padding-top: 3rem !important;
+  padding-bottom: 5rem !important;
+  padding-left: 0 !important; /* Canceled side space */
+  padding-right: 0 !important; /* Canceled side space */
+  background-color: var(--background);
+}
+
+/* Standardize article inner width for framing - SHARED FOR ALL LANGUAGES */
+.article-body-container {
+  max-width: 1000px !important; 
+  margin: 0 auto !important;
+  padding: 0 1rem !important; 
+}
+
+
+
+@media (max-width: 768px) {
+  article[lang="ml"] {
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+    padding-top: 2rem !important;
+  }
+}
+
+/* Indent first paragraph to 50% using a pseudo-element spacer (most robust) */
+article[lang="ml"] .prose:not(.poetry-format) p:first-child::before,
+article[lang="ml"] .prose:not(.poetry-format) p:first-of-type::before {
+  content: "";
+  display: inline-block;
+  width: 50%;
+  height: 1px;
+}
+
+/* Fallback/Backup Indentation */
+article[lang="ml"] .prose:not(.poetry-format) p:first-child,
+article[lang="ml"] .prose:not(.poetry-format) p:first-of-type {
+  text-indent: 0 !important; /* Reset if previously set */
+}
+
+/* Drop Cap (Artistic Raised Initial Style) */
+article[lang="ml"] .prose:not(.poetry-format) p:first-child::first-letter,
+article[lang="ml"] .prose:not(.poetry-format) p:first-of-type::first-letter {
+  float: none !important; 
+  font-family: "Rachana", serif !important;
+  font-size: 4.5rem !important;
+  line-height: 1 !important;
+  vertical-align: baseline !important;
+  padding-right: 12px !important;
+  font-weight: 700;
+  color: var(--foreground);
+  display: inline-block !important; 
+}
+
+
+
+
+/* 2. Poetry Format (Artistic) */
+:lang(ml) .poetry-format {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  text-align: center !important;
+  padding-top: 8rem !important; /* 2 inch top margin */
+  max-width: 800px !important;
+  margin: 0 auto !important;
+  column-count: 1 !important;
+}
+
+:lang(ml) .poetry-format h1 {
+  font-family: "Gayathri", sans-serif !important;
+  font-weight: 400 !important;
+  font-size: 3.5rem !important;
+  letter-spacing: 0.1em !important;
+  margin-bottom: 0.5rem !important;
+}
+
+:lang(ml) .poetry-format .poet-name {
+  font-family: "Anek Malayalam", sans-serif !important;
+  font-weight: 300;
+  font-style: italic;
+  font-size: 0.9rem;
+  color: #666;
+  margin-bottom: 4rem;
+}
+
+:lang(ml) .poetry-format p {
+  font-family: "Chilanka", cursive !important;
+  font-size: 1.4rem !important;
+  line-height: 2 !important; /* 2.0x spacing */
+  text-align: center !important;
+  white-space: pre-line;
+  margin-bottom: 3rem !important;
+}
+
+/* Malayalam Author Pill Style */
+:lang(ml) .ml-author-pill {
+  background-color: #e0f7f8 !important; /* Themed light teal */
+  color: #006064 !important; /* Dark teal */
+  padding: 0.4rem 1.5rem 0.4rem 0.5rem !important;
+  border-radius: 9999px !important;
+  font-weight: 700 !important;
+  font-family: "Rachana", serif !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.dark :lang(ml) .ml-author-pill {
+  background-color: rgba(0, 96, 100, 0.2) !important;
+  color: #4dd0e1 !important;
+}
+
+
+/* ─── English Language Typography (TIME-Style) ─────────────────────────────
+   Targets content when page language is English (en).
+────────────────────────────────────────────────────────────────────────── */
+
+/* 1. Magazine Layout (Standard) */
+:lang(en) h1 {
+  font-family: "EB Garamond", serif !important; /* Strict Serif compliance */
+  font-weight: 600 !important;
+  text-transform: none !important; /* Changed from uppercase for a more classical journal feel */
+  letter-spacing: -0.015em !important;
+  line-height: 1.1 !important;
+  /* Slightly decreased size for better editorial balance */
+  font-size: clamp(2.25rem, 7vw, 3.75rem) !important; 
+  text-align: left !important;
+  margin-left: 0 !important;
+  margin-right: auto !important;
+  max-width: 100% !important;
+}
+
+/* Intro / The Lead */
+:lang(en) .prose > p:first-of-type:not(.poetry-format *) {
+  font-family: var(--font-en-body) !important;
+  font-style: italic !important;
+  font-size: 1.25em !important;
+  line-height: 1.5 !important;
+  margin-bottom: 2rem !important;
+}
+
+/* Body Text (Clean Wall of Text) */
+:lang(en) .prose {
+  font-family: var(--font-en-body) !important;
+  text-align: justify !important;
+  hyphens: auto !important;
+  line-height: 1.5 !important;
+  font-size: var(--reader-font-size, 1.25rem) !important;
+  font-weight: 500 !important; /* Decreased boldness for a more graceful look */
+  white-space: pre-wrap !important; /* Honor manual breaks and spacing */
+}
+
+/* 2. International Poetry Format (English) */
+:lang(en) .poetry-format {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  padding-top: 5rem !important;
+  max-width: 800px !important;
+  margin: 0 auto !important;
+}
+
+:lang(en) .poetry-format h1 {
+  font-family: var(--font-en-poetry-title) !important;
+  font-weight: 400 !important;
+  text-transform: none !important;
+  letter-spacing: normal !important;
+  margin-bottom: 3rem !important;
+}
+
+:lang(en) .poetry-format p {
+  font-family: var(--font-en-poetry-body) !important;
+  font-size: 1.3rem !important;
+  line-height: 2.0 !important; /* Slow feel */
+  text-align: left !important; /* Left aligned text inside centered block */
+  margin-bottom: 2rem !important;
 }
 
 /* Hide scrollbar for category nav */
@@ -114,7 +395,19 @@
   color: #433422;
 }
 
-/* Article prose improvements */
+/* CSS Drop Cap for Articles */
+.prose > p:first-of-type::first-letter {
+  float: left;
+  font-family: var(--font-logo), serif;
+  font-size: 4.5rem;
+  line-height: 1;
+  padding-top: 4px;
+  padding-right: 12px;
+  padding-left: 3px;
+  font-weight: bold;
+  color: var(--foreground);
+}
+
 .prose {
   font-size: var(--reader-font-size, 1.125rem) !important;
 }
@@ -136,7 +429,49 @@
 .prose h3 { margin-top: 2em; margin-bottom: 0.75em; }
 .prose p { margin-bottom: 1.5em; }
 .prose blockquote {
-  border-left: 3px solid #ec5b13;
+  border-left: 3px solid #2E5BFF;
   padding-left: 1.25rem;
   font-style: italic;
+}
+
+/* Custom Cursor */
+* {
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8' viewBox='0 0 8 8'%3E%3Ccircle cx='4' cy='4' r='3' fill='%232E5BFF'/%3E%3C/svg%3E") 4 4, auto;
+}
+
+a, button, [role="button"] {
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Ccircle cx='6' cy='6' r='5' fill='none' stroke='%232E5BFF' stroke-width='2'/%3E%3C/svg%3E") 6 6, pointer;
+}
+
+::selection {
+  background-color: rgba(46, 91, 255, 0.2);
+  color: inherit;
+}
+
+/* Live Fluid Background Animations */
+@keyframes fluid-blob {
+  0% { transform: translate(0, 0) scale(1) rotate(0deg); }
+  25% { transform: translate(10%, -15%) scale(1.1) rotate(90deg); }
+  50% { transform: translate(-5%, 15%) scale(0.9) rotate(180deg); }
+  75% { transform: translate(15%, 5%) scale(1.05) rotate(270deg); }
+  100% { transform: translate(0, 0) scale(1) rotate(360deg); }
+}
+
+@keyframes fluid-blob-alt {
+  0% { transform: translate(0, 0) scale(1.1) rotate(360deg); }
+  33% { transform: translate(-15%, 10%) scale(0.9) rotate(240deg); }
+  66% { transform: translate(10%, -10%) scale(1.2) rotate(120deg); }
+  100% { transform: translate(0, 0) scale(1.1) rotate(0deg); }
+}
+
+.animate-fluid-blob {
+  animation: fluid-blob 25s infinite linear;
+}
+
+.animate-fluid-blob-slow {
+  animation: fluid-blob-alt 40s infinite linear;
+}
+
+.animate-fluid-blob-fast {
+  animation: fluid-blob 18s infinite reverse ease-in-out;
 }

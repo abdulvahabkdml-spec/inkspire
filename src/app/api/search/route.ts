@@ -10,7 +10,7 @@ export async function GET(request: Request) {
 
   try {
     const { dbGetArticles } = await import('@/lib/server-db');
-    const all = await dbGetArticles({});
+    const all = await dbGetArticles();
     
     const results = all
       .filter((a: any) => 

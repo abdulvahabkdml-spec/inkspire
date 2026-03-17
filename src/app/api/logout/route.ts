@@ -6,8 +6,7 @@ export async function POST() {
     { status: 200 }
   );
 
-  // Clear the session cookie
-  response.cookies.set('historia_session', '', {
+  response.cookies.set('inkspire_session', '', {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
     sameSite: 'strict',

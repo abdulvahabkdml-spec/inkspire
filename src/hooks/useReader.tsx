@@ -39,7 +39,7 @@ export function ReaderProvider({ children }: { children: ReactNode }) {
 
   // Mount logic to read preferences from localStorage
   useEffect(() => {
-    const savedTheme = localStorage.getItem('historia_theme') as ReadingTheme;
+    const savedTheme = localStorage.getItem('inkspire_theme') as ReadingTheme;
     const isGlobalDark = document.documentElement.classList.contains('dark');
     
     if (savedTheme) {
@@ -53,7 +53,7 @@ export function ReaderProvider({ children }: { children: ReactNode }) {
 
   // Sync theme
   useEffect(() => {
-    localStorage.setItem('historia_theme', theme);
+    localStorage.setItem('inkspire_theme', theme);
   }, [theme]);
 
   // Handle escape key to exit Zen Mode
@@ -67,6 +67,11 @@ export function ReaderProvider({ children }: { children: ReactNode }) {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [zenMode]);
 
+  // Sync fontSize to DOM custom property so CSS var(--reader-font-size) updates live
+  useEffect(() => {
+    document.documentElement.style.setProperty('--reader-font-size', `${fontSize}px`);
+  }, [fontSize]);
+
   return (
     <ReaderContext.Provider
       value={{
@@ -78,12 +83,7 @@ export function ReaderProvider({ children }: { children: ReactNode }) {
         setFontSize: setFontSizeState,
       }}
     >
-      <div 
-        style={{ '--reader-font-size': `${fontSize}px` } as React.CSSProperties} 
-        className="transition-all duration-300 ease-in-out"
-      >
-        {children}
-      </div>
+      {children}
     </ReaderContext.Provider>
   );
 }

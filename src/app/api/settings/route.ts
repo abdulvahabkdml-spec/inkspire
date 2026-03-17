@@ -7,10 +7,10 @@ export async function GET() {
     if (!settings) {
       settings = await prisma.siteSettings.create({
         data: {
-          siteName: 'THE HISTORIA',
+          siteName: 'THE INKSPIRE',
           description: 'A Digital Magazine exploring faith, art, and history.',
-          contactEmail: 'editor@thehistoria.com',
-          primaryColor: '#ec5b13',
+          contactEmail: 'editor@theinkspire.com',
+          primaryColor: '#2E5BFF',
         },
       });
     }

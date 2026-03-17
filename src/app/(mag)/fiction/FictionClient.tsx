@@ -3,14 +3,12 @@
 import { useState } from 'react';
 import ArticleCard from '@/components/article/ArticleCard';
 import { Article } from '@/lib/api';
-import { useTranslations } from 'next-intl';
 
 const FICTION_GENRES = ['All', '#Poetry', '#Literature', '#Stories'];
 
 export default function FictionClient({ initialArticles }: { initialArticles: Article[] }) {
   const [activeGenre, setActiveGenre] = useState('All');
-  const t = useTranslations('home.articles');
-
+  
   const filtered = activeGenre === 'All'
     ? initialArticles
     : initialArticles.filter(a => a.tags?.includes(activeGenre) || a.category === activeGenre.replace('#', ''));
@@ -57,7 +55,7 @@ export default function FictionClient({ initialArticles }: { initialArticles: Ar
       {filtered.length > 0 && (
         <div className="flex justify-center mt-24">
           <button className="group relative px-10 py-4 overflow-hidden rounded-full border border-black/10 dark:border-white/10 text-black dark:text-white font-bold uppercase tracking-[0.3em] text-[10px] transition-all hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black">
-            <span className="relative z-10">{t('viewMore')}</span>
+            <span className="relative z-10">{'View More'}</span>
           </button>
         </div>
       )}

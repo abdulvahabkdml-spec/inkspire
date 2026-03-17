@@ -4,7 +4,7 @@ import { deleteFromCloudinary } from '@/lib/cloudinary';
 
 export async function GET() {
   try {
-    const media = await (prisma as any).media.findMany({
+    const media = await prisma.media.findMany({
       orderBy: { createdAt: 'desc' },
     });
     return NextResponse.json({ success: true, data: media });
@@ -21,7 +21,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ success: false, error: 'URL is required' }, { status: 400 });
     }
 
-    const media = await (prisma as any).media.create({
+    const media = await prisma.media.create({
       data: {
         url: body.url,
         name: body.name || body.url.split('/').pop()?.split('?')[0] || 'unnamed-asset',
@@ -46,7 +46,7 @@ export async function DELETE(req: NextRequest) {
     }
 
     // Find the media item first to get the publicId
-    const media = await (prisma as any).media.findUnique({
+    const media = await prisma.media.findUnique({
       where: { id },
     });
 
@@ -63,7 +63,7 @@ export async function DELETE(req: NextRequest) {
       }
     }
 
-    await (prisma as any).media.delete({
+    await prisma.media.delete({
       where: { id },
     });
 

@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 
 const ADMIN_USERNAME = 'admin';
-const ADMIN_PASSWORD = 'historia2026';
+const ADMIN_PASSWORD = 'inkspire2026';
 
 export async function POST(request: Request) {
   try {
@@ -13,12 +13,13 @@ export async function POST(request: Request) {
         { status: 200 }
       );
 
-      // Set a secure, HTTP-only cookie for the session
-      response.cookies.set('historia_session', 'authenticated', {
+      // Set a secure, HTTP-only cookie for the session (24 hour expiration)
+      response.cookies.set('inkspire_session', 'authenticated', {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
         sameSite: 'strict',
         path: '/',
+        maxAge: 60 * 60 * 24, // 24 hours
       });
 
       return response;

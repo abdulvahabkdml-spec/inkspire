@@ -37,7 +37,7 @@ export async function POST(req: NextRequest) {
     const { url, publicId, bytes, format } = await uploadToCloudinary(
       buffer,
       file.name,
-      'the-historia'
+      'the-inkspire'
     );
 
     // Format size as human-readable
@@ -45,7 +45,7 @@ export async function POST(req: NextRequest) {
     const size = `${sizeInMB} MB`;
 
     // Save to database
-    const media = await (prisma as any).media.create({
+    const media = await prisma.media.create({
       data: {
         url,
         name: file.name,

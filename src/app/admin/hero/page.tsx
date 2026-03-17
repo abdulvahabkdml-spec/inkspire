@@ -56,7 +56,7 @@ export default function HeroConfigPage() {
         <button
           onClick={handleSave}
           disabled={isSaving}
-          className="flex items-center gap-2 bg-[#ec5b13] text-white px-5 py-3 rounded-lg font-bold uppercase tracking-widest text-[10px] hover:bg-[#ec5b13]/80 transition-all shadow-lg shadow-[#ec5b13]/20 disabled:opacity-50"
+          className="flex items-center gap-2 bg-[#2E5BFF] text-white px-5 py-3 rounded-lg font-bold uppercase tracking-widest text-[10px] hover:bg-[#2E5BFF]/80 transition-all shadow-lg shadow-[#2E5BFF]/20 disabled:opacity-50"
         >
           {isSaving ? <Loader2 size={14} className="animate-spin" /> : <Save size={14} strokeWidth={3} />}
           {saved ? 'Changes Applied!' : isSaving ? 'Applying...' : 'Apply Selected Cover'}
@@ -77,7 +77,7 @@ export default function HeroConfigPage() {
               value={focusConfig.articleSlug}
               onChange={e => setFocusConfig({...focusConfig, articleSlug: e.target.value})}
               placeholder="e.g. architecture-of-silence"
-              className="w-full bg-black/40 border border-white/10 text-white px-5 py-3 text-sm outline-none focus:border-[#ec5b13] transition-colors rounded-xl font-mono"
+              className="w-full bg-black/40 border border-white/10 text-white px-5 py-3 text-sm outline-none focus:border-[#2E5BFF] transition-colors rounded-xl font-mono"
             />
             <p className="text-[9px] text-slate-500 mt-2 uppercase tracking-wider">The main large article displayed on the left side of the homepage.</p>
           </div>
@@ -89,7 +89,7 @@ export default function HeroConfigPage() {
               value={focusConfig.secondarySlug}
               onChange={e => setFocusConfig({...focusConfig, secondarySlug: e.target.value})}
               placeholder="e.g. echoes-of-andalusia"
-              className="w-full bg-black/40 border border-white/10 text-white px-5 py-3 text-sm outline-none focus:border-[#ec5b13] transition-colors rounded-xl font-mono"
+              className="w-full bg-black/40 border border-white/10 text-white px-5 py-3 text-sm outline-none focus:border-[#2E5BFF] transition-colors rounded-xl font-mono"
             />
             <p className="text-[9px] text-slate-500 mt-2 uppercase tracking-wider">The smaller featured card on the right side of the homepage.</p>
           </div>
@@ -101,7 +101,7 @@ export default function HeroConfigPage() {
               value={focusConfig.customTitle}
               onChange={e => setFocusConfig({...focusConfig, customTitle: e.target.value})}
               placeholder="Leave blank to use the article's actual title"
-              className="w-full bg-black/40 border border-white/10 text-white px-5 py-3 text-sm outline-none focus:border-[#ec5b13] transition-colors rounded-xl placeholder-white/10 text-[11px] uppercase tracking-widest"
+              className="w-full bg-black/40 border border-white/10 text-white px-5 py-3 text-sm outline-none focus:border-[#2E5BFF] transition-colors rounded-xl placeholder-white/10 text-[11px] uppercase tracking-widest"
             />
           </div>
 
@@ -112,7 +112,7 @@ export default function HeroConfigPage() {
               onChange={e => setFocusConfig({...focusConfig, customExcerpt: e.target.value})}
               placeholder="Leave blank to use the article's actual excerpt."
               rows={3}
-              className="w-full bg-black/40 border border-white/10 text-white px-5 py-3 text-sm outline-none focus:border-[#ec5b13] transition-colors rounded-xl placeholder-white/10 resize-none font-serif italic"
+              className="w-full bg-black/40 border border-white/10 text-white px-5 py-3 text-sm outline-none focus:border-[#2E5BFF] transition-colors rounded-xl placeholder-white/10 resize-none font-serif italic"
             />
           </div>
         </div>

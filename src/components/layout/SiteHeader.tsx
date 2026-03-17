@@ -1,6 +1,6 @@
 'use client';
 
-import { Link } from '@/navigation';
+import Link from 'next/link';
 import { useState, useEffect, useRef } from 'react';
 import ThemeToggle from './ThemeToggle';
 import SearchBar from './SearchBar';
@@ -12,12 +12,9 @@ if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger);
 }
 
-import { useTranslations } from 'next-intl';
-import LanguageSwitcher from './LanguageSwitcher';
 
 export default function SiteHeader() {
-  const t = useTranslations('nav');
-  const [menuOpen, setMenuOpen] = useState(false);
+    const [menuOpen, setMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const headerRef = useRef<HTMLElement>(null);
   const logoRef = useRef<HTMLDivElement>(null);
@@ -59,7 +56,7 @@ export default function SiteHeader() {
           backgroundColor: 'transparent',
           backdropFilter: 'blur(0px)',
           borderBottomColor: 'transparent',
-          height: '80px',
+          height: '100px',
           duration: 0.4,
           overwrite: 'auto'
         });
@@ -77,14 +74,14 @@ export default function SiteHeader() {
     <>
       <header 
         ref={headerRef}
-        className="fixed top-0 left-0 right-0 z-50 flex items-center h-28 border-b border-transparent transition-colors duration-300 zen-hide"
+        className="fixed top-0 left-0 right-0 z-50 flex items-center h-32 border-b border-transparent transition-colors duration-300 zen-hide"
         style={{ 
           // Inject CSS variables for dark mode compatibility in GSAP
           '--header-bg-scrolled': 'rgba(var(--background-rgb, 246, 246, 248), 0.85)' 
         } as React.CSSProperties}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-            <div className="grid grid-cols-3 items-center h-full relative">
+        <div className="grid grid-cols-[1fr_auto_1fr] items-center h-full gap-4 relative">
             {/* Left Nav */}
             <div className="flex items-center gap-6">
               {/* Mobile Hamburger */}
@@ -102,17 +99,17 @@ export default function SiteHeader() {
 
               {/* Desktop Nav */}
               <nav className="hidden lg:flex items-center gap-4 xl:gap-8 pl-2">
-                <Link href="/" className="text-[11px] font-bold tracking-[0.2em] transform uppercase hover:text-[#ec5b13] transition-colors">{t('home')}</Link>
+                <Link href="/" className="text-[11px] font-bold hover:text-[#2E5BFF] transition-colors">{'Home'}</Link>
                 
                 {/* Articles Dropdown */}
                 <div className="relative group/nav">
-                  <Link href="/archives" className="text-[11px] font-bold tracking-[0.2em] transform uppercase hover:text-[#ec5b13] transition-colors py-4">
-                    {t('archives')}
+                  <Link href="/archives" className="text-[11px] font-bold hover:text-[#2E5BFF] transition-colors py-4">
+                    {'Articles'}
                   </Link>
                   <div className="absolute top-full left-0 opacity-0 invisible group-hover/nav:opacity-100 group-hover/nav:visible transition-all duration-300 transform translate-y-2 group-hover/nav:translate-y-0 pt-2">
                      <div className="bg-white dark:bg-slate-900 border border-black/5 dark:border-white/5 shadow-2xl rounded-xl py-3 flex flex-col min-w-48 backdrop-blur-md">
                         {['World', 'History', 'Theology', 'Sufism'].map((tag) => (
-                           <Link key={tag} href={`/archives?tag=${tag}`} className="px-5 py-2.5 text-[10px] font-bold uppercase tracking-widest hover:bg-black/5 dark:hover:bg-white/5 hover:text-[#ec5b13] transition-colors">
+                           <Link key={tag} href={`/archives?tag=${tag}`} className="px-5 py-2.5 text-[10px] font-bold hover:bg-black/5 dark:hover:bg-white/5 hover:text-[#2E5BFF] transition-colors">
                               {tag}
                            </Link>
                         ))}
@@ -122,13 +119,13 @@ export default function SiteHeader() {
 
                 {/* Fiction Dropdown */}
                 <div className="relative group/nav">
-                  <Link href="/fiction" className="text-[11px] font-bold tracking-[0.2em] transform uppercase hover:text-[#ec5b13] transition-colors py-4">
-                    {t('fiction')}
+                  <Link href="/fiction" className="text-[11px] font-bold hover:text-[#2E5BFF] transition-colors py-4">
+                    {'Fiction'}
                   </Link>
                   <div className="absolute top-full left-0 opacity-0 invisible group-hover/nav:opacity-100 group-hover/nav:visible transition-all duration-300 transform translate-y-2 group-hover/nav:translate-y-0 pt-2">
                      <div className="bg-white dark:bg-slate-900 border border-black/5 dark:border-white/5 shadow-2xl rounded-xl py-3 flex flex-col min-w-48 backdrop-blur-md">
                         {['Story', 'Poem', 'Travelings', 'Literature'].map((tag) => (
-                           <Link key={tag} href={`/fiction?tag=${tag}`} className="px-5 py-2.5 text-[10px] font-bold uppercase tracking-widest hover:bg-black/5 dark:hover:bg-white/5 hover:text-[#ec5b13] transition-colors">
+                           <Link key={tag} href={`/fiction?tag=${tag}`} className="px-5 py-2.5 text-[10px] font-bold hover:bg-black/5 dark:hover:bg-white/5 hover:text-[#2E5BFF] transition-colors">
                               {tag}
                            </Link>
                         ))}
@@ -136,15 +133,79 @@ export default function SiteHeader() {
                   </div>
                 </div>
 
-                <Link href="/voices" className="text-[11px] font-bold tracking-[0.2em] transform uppercase hover:text-[#ec5b13] transition-colors">{t('voices')}</Link>
-                <Link href="/mythos" className="text-[11px] font-bold tracking-[0.2em] transform uppercase hover:text-[#ec5b13] transition-colors border border-black/10 dark:border-white/10 px-2 py-0.5 rounded-sm">MYTHOS</Link>
+                {/* Mythos Dropdown */}
+                <div className="relative group/nav">
+                  <Link href="/mythos" className="text-[11px] font-bold hover:text-[#2E5BFF] transition-colors border border-black/10 dark:border-white/10 px-2 py-0.5 rounded-sm">
+                    {'Mythos'}
+                  </Link>
+                  <div className="absolute top-full left-0 opacity-0 invisible group-hover/nav:opacity-100 group-hover/nav:visible transition-all duration-300 transform translate-y-2 group-hover/nav:translate-y-0 pt-2">
+                     <div className="bg-white dark:bg-slate-900 border border-black/5 dark:border-white/5 shadow-2xl rounded-xl py-3 flex flex-col min-w-48 backdrop-blur-md">
+                        <Link href="/mythos" className="px-5 py-2.5 text-[10px] font-bold hover:bg-black/5 dark:hover:bg-white/5 hover:text-[#2E5BFF] transition-colors">
+                            Explore {'Mythos'}
+                        </Link>
+                     </div>
+                  </div>
+                </div>
+
+                {/* Voices Link */}
+                <div className="relative group/nav">
+                  <Link href="/voices" className="text-[11px] font-bold hover:text-[#2E5BFF] transition-colors py-4">
+                    {'Voices'}
+                  </Link>
+                </div>
               </nav>
             </div>
             
-            {/* Center Logo */}
-            <div ref={logoRef} className="flex items-center justify-center pointer-events-none">
-              <Link href="/" className="text-xl sm:text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight serif-font text-black dark:text-white whitespace-nowrap lg:tracking-[-0.05em] pointer-events-auto">
-                THE HI<span style={{ color: '#A52A2A' }}>S</span>TORIA
+            <div ref={logoRef} className="flex items-center justify-center pointer-events-none pt-8 px-4">
+              <Link
+                href="/"
+                className="flex flex-col items-start whitespace-nowrap pointer-events-auto"
+                style={{ lineHeight: 1, gap: 0 }}
+              >
+                {/* THE — Small, Montserrat Black, above "INK" */}
+                <span
+                  className="text-[#1A1A1A] dark:text-slate-100 transition-colors uppercase select-none"
+                  style={{
+                    fontFamily: "'Montserrat', sans-serif",
+                    fontWeight: 900,
+                    fontSize: 'clamp(0.9rem, 2vw, 1.35rem)',
+                    letterSpacing: '0.18em',
+                    lineHeight: 1,
+                    marginBottom: '0.04em',
+                    paddingLeft: '0.05em',
+                  }}
+                >
+                  THE
+                </span>
+
+                {/* INKSPIRE — original reversed-K typographic mark, unchanged */}
+                <div
+                  className="flex items-center font-black font-sans text-3xl sm:text-4xl md:text-5xl lg:text-6xl"
+                  style={{ letterSpacing: '-0.02em', lineHeight: 1 }}
+                >
+                  {/* IN — Matte Black */}
+                  <span className="text-[#1A1A1A] dark:text-slate-100 transition-colors">IN</span>
+
+                  {/* Reversed K — Electric Cobalt Blue */}
+                  <div
+                    className="inline-flex items-center justify-center transform scale-x-[-1]"
+                    style={{ height: '1em', width: '0.65em', marginLeft: '0.05em', marginRight: '0.05em' }}
+                  >
+                    <svg
+                      viewBox="0 0 56 72"
+                      aria-label="K"
+                      className="h-full w-full overflow-visible"
+                      fill="none"
+                    >
+                      <rect x="0" y="0" width="14" height="72" fill="#2E5BFF" />
+                      <path d="M 14,36 L 56,0 L 56,18 L 28,42 Z" fill="#2E5BFF" />
+                      <path d="M 14,36 L 56,72 L 56,54 L 28,30 Z" fill="#2E5BFF" />
+                    </svg>
+                  </div>
+
+                  {/* SPIRE — Electric Cobalt Blue */}
+                  <span className="text-[#2E5BFF] transition-colors">SPIRE</span>
+                </div>
               </Link>
             </div>
             
@@ -158,7 +219,7 @@ export default function SiteHeader() {
                  <Search size={16} className="text-slate-700 dark:text-slate-300" />
                </button>
                <div className="hidden md:block">
-                 <LanguageSwitcher />
+                 
                </div>
                <div className="w-px h-4 bg-black/10 dark:bg-white/10 hidden md:block"></div>
                <ThemeToggle />
@@ -180,18 +241,31 @@ export default function SiteHeader() {
         >
           <div className="p-10 h-full flex flex-col">
             <div className="flex justify-between items-center mb-16">
-              <h2 className="text-3xl font-bold serif-font tracking-tight text-black dark:text-white uppercase">HISTORIA</h2>
+              <div className="flex items-center gap-2">
+                <div style={{ width: '2rem', height: '2rem' }}>
+                  <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
+                    <path d="M50 80 Q30 70 12 72 L12 30 Q30 28 50 42 Z" fill="#2E5BFF" opacity="0.85" />
+                    <path d="M50 80 Q70 70 88 72 L88 30 Q70 28 50 42 Z" fill="#2E5BFF" />
+                    <path d="M50 8 L58 38 L54 42 L50 80 L46 42 L42 38 Z" fill="#1A1A1A" opacity="0.9" />
+                    <circle cx="50" cy="10" r="3" fill="#1A1A1A" opacity="0.85" />
+                  </svg>
+                </div>
+                <div className="flex flex-col leading-none">
+                  <span className="text-[8px] font-black tracking-[0.25em] text-[#2E5BFF] uppercase">THE</span>
+                  <span className="text-xl font-black tracking-tight text-black dark:text-white">INKSPIRE</span>
+                </div>
+              </div>
               <button onClick={() => setMenuOpen(false)} className="p-2 hover:bg-black/5 dark:hover:bg-white/5 rounded-full transition-all">
                 <span className="material-symbols-outlined text-3xl">close</span>
               </button>
             </div>
             <nav className="flex flex-col gap-8">
               {[
-                { name: t('home'), href: '/' },
-                { name: t('archives'), href: '/archives' },
-                { name: t('fiction'), href: '/fiction' },
-                { name: t('voices'), href: '/voices' },
+                { name: 'Home', href: '/' },
+                { name: 'Articles', href: '/archives' },
+                { name: 'Fiction', href: '/fiction' },
                 { name: 'Mythos', href: '/mythos' },
+                { name: 'Voices', href: '/voices' },
               ].map((item, idx) => (
                 <Link 
                   key={item.name}
@@ -206,8 +280,6 @@ export default function SiteHeader() {
               ))}
             </nav>
             <div className="mt-12">
-               <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400 mb-4 px-1">Select Language</p>
-               <LanguageSwitcher />
             </div>
             <div className="mt-auto pt-8 border-t border-gray-100 dark:border-gray-800">
                <p className="text-sm text-slate-500 mb-6 font-serif italic italic font-light leading-relaxed">
@@ -216,9 +288,9 @@ export default function SiteHeader() {
                <Link 
                 href="/admin/login" 
                 onClick={() => setMenuOpen(false)} 
-                className="inline-flex items-center gap-2 text-sm uppercase tracking-[0.3em] font-black text-black dark:text-white hover:gap-4 transition-all"
+                className="inline-flex items-center gap-2 text-sm font-black text-black dark:text-white hover:gap-4 transition-all"
               >
-                {t('admin')}
+                {'Admin Access'}
                 <span className="material-symbols-outlined text-sm">arrow_forward</span>
               </Link>
             </div>

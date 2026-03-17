@@ -7,7 +7,7 @@ const SEED_ARTICLES = [
     slug: 'architecture-of-silence',
     title: 'The Architecture of Silence: Finding Stillness in the Modern Age',
     excerpt: 'An exploration into how traditional Islamic geometric patterns invoke a sense of contemplation and inner peace amidst relentless digital noise.',
-    content: `<p class="mb-8"><span class="float-left text-7xl leading-none pr-3 pt-2 font-serif font-bold" style="color:#ec5b13">I</span>n the relentless cadence of modernity, silence is often misconstrued as an absence.</p>`,
+    content: `<p class="mb-8"><span class="float-left text-7xl leading-none pr-3 pt-2 font-serif font-bold" style="color:#2E5BFF">I</span>n the relentless cadence of modernity, silence is often misconstrued as an absence.</p>`,
     category: 'Articles',
     author: 'Dr. Ayesha Rahman',
     date: 'March 15, 2026',
@@ -76,7 +76,7 @@ export async function POST(req: NextRequest) {
     }
 
     // Prisma expects the exact model fields
-    const article = await (prisma as any).article.create({
+    const article = await prisma.article.create({
       data: {
         slug: body.slug,
         title: body.title,

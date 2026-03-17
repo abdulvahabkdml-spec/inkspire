@@ -19,7 +19,7 @@ export async function DELETE(
     }
 
     // Connect to prisma and find the item
-    const media = await (prisma as any).media.findUnique({
+    const media = await prisma.media.findUnique({
       where: { id },
     });
 
@@ -41,7 +41,7 @@ export async function DELETE(
 
     // Database Cleanup
     console.log(`[DELETE] Removing record from database...`);
-    await (prisma as any).media.delete({
+    await prisma.media.delete({
       where: { id },
     });
 

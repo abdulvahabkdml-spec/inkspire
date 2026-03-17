@@ -7,7 +7,7 @@ import { ArrowLeft, Save, Eye, Loader2, Image as ImageIcon } from 'lucide-react'
 import { getArticleBySlug, updateArticle, Article, getTags } from '@/lib/api';
 import MediaSelector from '@/components/admin/MediaSelector';
 
-const CONTENT_TYPES = ['Articles', 'Fiction', 'Voices', 'Mythos'];
+const CONTENT_TYPES = ['Articles', 'Fiction', 'Mythos', 'Voices'];
 const STATUSES = ['Draft', 'Published', 'Scheduled'];
 const DEFAULT_TAGS = [
   '#QuranicStudy', '#Sufism', '#Literature', '#Theology',
@@ -52,7 +52,7 @@ export default function EditArticlePage() {
   useEffect(() => {
     async function loadArticle() {
       if (!slug) return;
-      const article = await getArticleBySlug(slug, 'en'); // Default to en for editor
+      const article = await getArticleBySlug(slug); // Default to en for editor
       if (article) {
         setForm({
           title: article.title,
@@ -111,7 +111,7 @@ export default function EditArticlePage() {
   if (isLoading) {
     return (
       <div className="min-h-screen bg-[#0F0F0F] text-white flex items-center justify-center">
-        <Loader2 className="animate-spin text-[#ec5b13]" size={32} />
+        <Loader2 className="animate-spin text-[#2E5BFF]" size={32} />
       </div>
     );
   }
@@ -133,7 +133,7 @@ export default function EditArticlePage() {
           <select
             value={form.lang}
             onChange={(e) => handleChange('lang', e.target.value)}
-            className="bg-white/5 border border-white/10 text-sm text-white px-4 py-2 outline-none hover:border-[#ec5b13] transition-colors rounded-lg cursor-pointer"
+            className="bg-white/5 border border-white/10 text-sm text-white px-4 py-2 outline-none hover:border-[#2E5BFF] transition-colors rounded-lg cursor-pointer"
           >
             <option value="en" className="bg-black">English</option>
             <option value="ar" className="bg-black">Arabic (عربي)</option>
@@ -142,14 +142,14 @@ export default function EditArticlePage() {
           <select
             value={form.status}
             onChange={(e) => handleChange('status', e.target.value)}
-            className="bg-white/5 border border-white/10 text-sm text-white px-4 py-2 outline-none hover:border-[#ec5b13] transition-colors rounded-lg cursor-pointer"
+            className="bg-white/5 border border-white/10 text-sm text-white px-4 py-2 outline-none hover:border-[#2E5BFF] transition-colors rounded-lg cursor-pointer"
           >
             {STATUSES.map(s => <option key={s} value={s} className="bg-black">{s}</option>)}
           </select>
           <button
             onClick={handleSave}
             disabled={isSaving}
-            className="flex items-center gap-2 bg-[#ec5b13] text-white px-5 py-2 text-sm font-bold uppercase tracking-wider hover:bg-[#ec5b13]/80 transition-colors rounded-lg shadow-lg shadow-[#ec5b13]/20 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="flex items-center gap-2 bg-[#2E5BFF] text-white px-5 py-2 text-sm font-bold uppercase tracking-wider hover:bg-[#2E5BFF]/80 transition-colors rounded-lg shadow-lg shadow-[#2E5BFF]/20 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {isSaving ? <Loader2 size={14} className="animate-spin" /> : <Save size={14} />}
             {saved ? 'Updated!' : 'Update'}
@@ -166,43 +166,43 @@ export default function EditArticlePage() {
             placeholder="Article Title..."
             value={form.title}
             onChange={(e) => handleChange('title', e.target.value)}
-            className="w-full bg-transparent border-b border-white/10 text-white text-2xl md:text-3xl lg:text-4xl font-serif font-bold py-3 outline-none placeholder-white/20 focus:border-[#ec5b13] transition-colors"
+            className="w-full bg-transparent border-b border-white/10 text-white text-2xl md:text-3xl lg:text-4xl font-serif font-bold py-3 outline-none placeholder-white/20 focus:border-[#2E5BFF] transition-colors"
           />
           <textarea
             placeholder="Write a short excerpt..."
             value={form.excerpt}
             onChange={(e) => handleChange('excerpt', e.target.value)}
             rows={2}
-            className="w-full bg-white/5 border border-white/10 text-gray-300 px-5 py-4 text-base outline-none focus:border-[#ec5b13] transition-colors rounded-lg resize-none font-serif placeholder-white/20"
+            className="w-full bg-white/5 border border-white/10 text-gray-300 px-5 py-4 text-base outline-none focus:border-[#2E5BFF] transition-colors rounded-lg resize-none font-serif placeholder-white/20"
           />
           <textarea
             placeholder="Start writing your article... (HTML supported)"
             value={form.content}
             onChange={(e) => handleChange('content', e.target.value)}
             rows={20}
-            className="w-full bg-white/5 border border-white/10 text-gray-300 px-5 py-4 text-base outline-none focus:border-[#ec5b13] transition-colors rounded-lg resize-y font-mono text-sm leading-relaxed placeholder-white/20"
+            className="w-full bg-white/5 border border-white/10 text-gray-300 px-5 py-4 text-base outline-none focus:border-[#2E5BFF] transition-colors rounded-lg resize-y font-mono text-sm leading-relaxed placeholder-white/20"
           />
         </div>
 
         <div className="flex flex-col gap-6">
           <div className="bg-white/5 border border-white/10 rounded-2xl p-6 flex flex-col gap-8 shadow-2xl backdrop-blur-sm">
             <div className="flex items-center gap-3 mb-2">
-              <div className="w-1 h-4 bg-[#ec5b13] rounded-full"></div>
+              <div className="w-1 h-4 bg-[#2E5BFF] rounded-full"></div>
               <h3 className="text-xs uppercase tracking-[0.2em] font-bold text-white/50">Entry Configuration</h3>
             </div>
 
             {/* Content Type */}
             <div className="space-y-3">
               <label className="text-[10px] text-slate-500 uppercase tracking-widest block font-bold">Content Architecture</label>
-              <div className="grid grid-cols-2 lg:grid-cols-4 gap-2">
+              <div className="grid grid-cols-2 gap-2">
                 {CONTENT_TYPES.map(t => (
                   <button
                     key={t}
                     type="button"
                     onClick={() => handleChange('type', t)}
-                    className={`py-2 text-[9px] font-bold rounded-lg uppercase tracking-wider border transition-all ${
+                    className={`py-2.5 text-[9px] font-bold rounded-lg uppercase tracking-wider border transition-all ${
                       form.type === t
-                        ? 'bg-[#ec5b13] border-[#ec5b13] text-white shadow-lg shadow-[#ec5b13]/20'
+                        ? 'bg-[#2E5BFF]/20 border-[#2E5BFF]/50 text-[#2E5BFF] shadow-lg shadow-[#2E5BFF]/10'
                         : 'bg-white/5 border-white/10 text-slate-500 hover:text-white hover:bg-white/10'
                     }`}
                   >
@@ -219,7 +219,7 @@ export default function EditArticlePage() {
                 <button
                   type="button"
                   onClick={() => setForm(prev => ({ ...prev, showOnHomepage: !prev.showOnHomepage }))}
-                  className={`relative w-11 h-6 rounded-full transition-colors ${form.showOnHomepage ? 'bg-[#ec5b13]' : 'bg-slate-700'}`}
+                  className={`relative w-11 h-6 rounded-full transition-colors ${form.showOnHomepage ? 'bg-[#2E5BFF]' : 'bg-slate-700'}`}
                 >
                   <span className={`absolute top-1 bottom-1 w-4 bg-white rounded-full transition-all ${form.showOnHomepage ? 'left-[calc(100%-1.25rem)]' : 'left-1'}`}></span>
                 </button>
@@ -236,10 +236,10 @@ export default function EditArticlePage() {
                   value={form.author}
                   onChange={(e) => handleChange('author', e.target.value)}
                   placeholder="Author name"
-                  className="w-full bg-black/40 border border-white/10 text-white px-4 py-3 text-sm outline-none focus:border-[#ec5b13] transition-colors rounded-xl placeholder-slate-700 font-medium"
+                  className="w-full bg-black/40 border border-white/10 text-white px-4 py-3 text-sm outline-none focus:border-[#2E5BFF] transition-colors rounded-xl placeholder-slate-700 font-medium"
                 />
 
-                <div className="group relative flex items-center bg-black/40 border border-white/10 rounded-xl focus-within:border-[#ec5b13] transition-all">
+                <div className="group relative flex items-center bg-black/40 border border-white/10 rounded-xl focus-within:border-[#2E5BFF] transition-all">
                   <input
                     type="text"
                     value={form.authorImage}
@@ -262,7 +262,7 @@ export default function EditArticlePage() {
                   onChange={(e) => handleChange('authorBio', e.target.value)}
                   placeholder="A brief biography..."
                   rows={3}
-                  className="w-full bg-black/40 border border-white/10 text-white px-4 py-3 text-sm outline-none focus:border-[#ec5b13] transition-colors rounded-xl placeholder-slate-700 resize-none font-serif leading-relaxed"
+                  className="w-full bg-black/40 border border-white/10 text-white px-4 py-3 text-sm outline-none focus:border-[#2E5BFF] transition-colors rounded-xl placeholder-slate-700 resize-none font-serif leading-relaxed"
                 />
               </div>
             </div>
@@ -282,7 +282,7 @@ export default function EditArticlePage() {
                     }
                     className={`text-[9px] px-3 py-1.5 rounded-lg border font-bold uppercase transition-all ${
                       tags.includes(tag)
-                        ? 'bg-[#ec5b13]/20 border-[#ec5b13]/50 text-[#ec5b13]'
+                        ? 'bg-[#2E5BFF]/20 border-[#2E5BFF]/50 text-[#2E5BFF]'
                         : 'bg-white/5 border-white/10 text-slate-500 hover:text-white hover:border-white/20'
                     }`}
                   >
@@ -295,7 +295,7 @@ export default function EditArticlePage() {
             {/* Cover Imagery */}
             <div className="space-y-3 pt-4 border-t border-white/5">
               <label className="text-[10px] text-slate-500 uppercase tracking-widest block font-bold">Feature Imagery</label>
-              <div className="group relative flex items-center bg-black/40 border border-white/10 rounded-xl focus-within:border-[#ec5b13] transition-all">
+              <div className="group relative flex items-center bg-black/40 border border-white/10 rounded-xl focus-within:border-[#2E5BFF] transition-all">
                 <input
                   type="url"
                   value={form.imageUrl}
@@ -323,7 +323,7 @@ export default function EditArticlePage() {
           </div>
 
           <Link
-            href={`/en/article/${slug}`}
+            href={`/article/${slug}`}
             className="group flex items-center justify-center gap-3 w-full bg-white/5 border border-white/10 text-slate-400 px-5 py-5 text-[10px] font-bold uppercase tracking-[0.3em] hover:bg-white hover:text-black hover:border-white transition-all rounded-2xl shadow-xl"
           >
             <Eye size={16} className="transition-transform group-hover:scale-110" />

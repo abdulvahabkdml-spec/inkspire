@@ -1,33 +1,73 @@
-import createMiddleware from 'next-intl/middleware';
-import { routing } from './i18n/routing';
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
+import type { NextRequest } from 'next/server';
 
-const intlMiddleware = createMiddleware(routing);
-
-export default function middleware(request: NextRequest) {
+export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  // 1. Handle Admin Protection & Ignore Admin for Localization
+  // 1. Protect Admin UI Routes
   if (pathname.startsWith('/admin')) {
-    if (pathname !== '/admin/login') {
-      const session = request.cookies.get('historia_session');
-      if (!session) {
-        const url = request.nextUrl.clone();
-        url.pathname = '/admin/login';
-        return NextResponse.redirect(url);
+    // Exception: Allow the login page itself
+    if (pathname === '/admin/login') {
+      // If we are already logged in and try to access login, redirect to dashboard
+      const session = request.cookies.get('inkspire_session');
+      if (session && session.value === 'authenticated') {
+        return NextResponse.redirect(new URL('/admin', request.url));
       }
+      return NextResponse.next();
     }
-    return NextResponse.next();
+
+    const session = request.cookies.get('inkspire_session');
+
+    if (!session || session.value !== 'authenticated') {
+      // User is not authenticated, redirect to login
+      const loginUrl = new URL('/admin/login', request.url);
+      loginUrl.searchParams.set('callbackUrl', pathname);
+      return NextResponse.redirect(loginUrl);
+    }
   }
 
-  // 2. Handle Localization for all other routes
-  return intlMiddleware(request);
+  // 2. Protect Admin API Routes
+  const isApiRequest = pathname.startsWith('/api');
+  if (isApiRequest) {
+    // Define precisely which API paths and methods are PUBLIC
+    const method = request.method;
+    
+    // Check for public GET routes
+    const isPublicGet = (
+      pathname.startsWith('/api/articles') ||
+      pathname.startsWith('/api/voices') ||
+      pathname.startsWith('/api/tags') ||
+      pathname.startsWith('/api/settings') ||
+      pathname.startsWith('/api/hero-config') ||
+      (pathname.startsWith('/api/comments') && request.nextUrl.searchParams.has('article'))
+    ) && method === 'GET';
+
+    // Check for other specific public routes
+    const isPublicPost = (
+      pathname === '/api/login' ||
+      pathname === '/api/comments' // Allow public to post comments
+    ) && method === 'POST';
+
+    const isPublicLogout = pathname === '/api/logout' && method === 'POST';
+
+    // If it's not a public route, require authentication
+    if (!isPublicGet && !isPublicPost && !isPublicLogout) {
+      const session = request.cookies.get('inkspire_session');
+      if (!session || session.value !== 'authenticated') {
+        return NextResponse.json(
+          { error: 'Unauthorized sequence detected. Access Denied.' },
+          { status: 401 }
+        );
+      }
+    }
+  }
+
+  return NextResponse.next();
 }
 
 export const config = {
-  // Match all pathnames except for
-  // - /api (API routes)
-  // - /_next (Next.js internals)
-  // - /.*\\..* (static files)
-  matcher: ['/((?!api|_next|.*\\..*).*)']
+  matcher: [
+    '/admin/:path*',
+    '/api/:path*'
+  ],
 };

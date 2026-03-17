@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { Link } from '@/navigation';
+import Link from 'next/link';
 
 export interface StoryCardProps {
   slug: string;
@@ -14,7 +14,7 @@ function StoryCard({ slug, title, excerpt, category, imageUrl }: StoryCardProps)
     <article className="flex flex-col gap-6 group">
       <Link href={`/article/${slug}`} className="block aspect-[4/5] overflow-hidden rounded-lg bg-slate-100 dark:bg-slate-900 relative">
         <Image
-          src={imageUrl}
+          src={imageUrl || 'https://images.unsplash.com/photo-1555993539-1732b0258235?q=80&w=1200&auto=format&fit=crop'}
           alt={title}
           fill
           sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
@@ -22,10 +22,10 @@ function StoryCard({ slug, title, excerpt, category, imageUrl }: StoryCardProps)
         />
       </Link>
       <div className="flex flex-col gap-3">
-        <span className="text-[#ec5b13] text-[10px] font-bold tracking-widest uppercase">
+        <span className="text-[#2E5BFF] text-[10px] font-bold tracking-widest uppercase">
           {category}
         </span>
-        <h3 className="text-2xl font-serif font-bold leading-snug group-hover:text-[#ec5b13] transition-colors text-slate-900 dark:text-white">
+        <h3 className="text-2xl font-serif font-bold leading-snug group-hover:text-[#2E5BFF] transition-colors text-slate-900 dark:text-white">
           {title}
         </h3>
         <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
@@ -33,7 +33,7 @@ function StoryCard({ slug, title, excerpt, category, imageUrl }: StoryCardProps)
         </p>
         <Link
           href={`/article/${slug}`}
-          className="text-xs font-bold border-b border-[#1a1a1a] dark:border-white self-start pb-1 mt-2 hover:border-[#ec5b13] hover:text-[#ec5b13] transition-colors"
+          className="text-xs font-bold border-b border-[#1a1a1a] dark:border-white self-start pb-1 mt-2 hover:border-[#2E5BFF] hover:text-[#2E5BFF] transition-colors"
         >
           Read Essay
         </Link>

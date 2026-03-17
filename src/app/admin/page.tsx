@@ -15,7 +15,7 @@ const TYPE_COLORS: Record<string, string> = {
   Articles: 'bg-white/10 text-white',
   Fiction:  'bg-white/5 text-slate-300',
   Voices:   'bg-white/5 text-slate-400',
-  Mythos:   'bg-[#ec5b13]/20 text-[#ec5b13]',
+  Mythos:   'bg-[#2E5BFF]/20 text-[#2E5BFF]',
 };
 
 const NAV_ITEMS = [
@@ -42,7 +42,7 @@ export default function AdminDashboard() {
       
       // Filter out mock deletions if Strapi is not enabled
       if (!process.env.NEXT_PUBLIC_STRAPI_URL) {
-        const deleted = JSON.parse(localStorage.getItem('historia_deleted_slugs') || '[]');
+        const deleted = JSON.parse(localStorage.getItem('inkspire_deleted_slugs') || '[]');
         const filtered = data.filter(a => !deleted.includes(a.slug));
         setArticles(filtered);
       } else {
@@ -85,7 +85,7 @@ export default function AdminDashboard() {
 
         {/* Page Header */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-10 relative">
-          <div className="absolute -top-20 -left-10 w-96 h-96 bg-[#ec5b13]/10 rounded-full blur-[120px] pointer-events-none z-0"></div>
+          <div className="absolute -top-20 -left-10 w-96 h-96 bg-[#2E5BFF]/10 rounded-full blur-[120px] pointer-events-none z-0"></div>
           <div className="relative z-10">
             <h2 className="text-3xl font-serif font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-white to-white/60">Digital Command</h2>
             <p className="text-slate-400 text-sm mt-1 uppercase tracking-widest text-[9px] font-bold">Manage articles, fiction, and editorial voices.</p>
@@ -106,7 +106,7 @@ export default function AdminDashboard() {
             { label: 'Articles',   count: counts.articles,  accent: 'text-white/80' },
             { label: 'Fiction',    count: counts.fiction,   accent: 'text-white/60' },
             { label: 'Voices',     count: counts.voices,    accent: 'text-white/40' },
-            { label: 'Mythos',     count: counts.mythos,    accent: 'text-[#ec5b13]' },
+            { label: 'Mythos',     count: counts.mythos,    accent: 'text-[#2E5BFF]' },
             { label: 'Published',  count: counts.published, accent: 'text-green-500' },
             { label: 'Drafts',     count: counts.drafts,    accent: 'text-slate-500' },
           ].map(stat => (
@@ -203,7 +203,7 @@ export default function AdminDashboard() {
                   {/* Actions */}
                   <td className="px-6 py-4">
                     <div className="flex items-center gap-3 text-slate-500">
-                      <Link href={`/en/article/${article.slug}`} className="hover:text-white transition-colors" title="Preview">
+                      <Link href={`/article/${article.slug}`} className="hover:text-white transition-colors" title="Preview">
                         <Eye size={15} />
                       </Link>
                       <Link 
@@ -267,9 +267,9 @@ export default function AdminDashboard() {
             <Link
               key={title}
               href={href}
-              className={`flex items-start gap-5 p-6 rounded-2xl border ${bg} hover:border-[#ec5b13]/50 hover:bg-[#ec5b13]/5 transition-all group backdrop-blur-md shadow-2xl relative overflow-hidden`}
+              className={`flex items-start gap-5 p-6 rounded-2xl border ${bg} hover:border-[#2E5BFF]/50 hover:bg-[#2E5BFF]/5 transition-all group backdrop-blur-md shadow-2xl relative overflow-hidden`}
             >
-              <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full blur-3xl group-hover:bg-[#ec5b13]/20 transition-colors pointer-events-none"></div>
+              <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full blur-3xl group-hover:bg-[#2E5BFF]/20 transition-colors pointer-events-none"></div>
               <Icon size={24} className={`${color} mt-0.5 shrink-0 group-hover:scale-110 transition-transform relative z-10`} />
               <div className="relative z-10">
                 <p className={`text-base font-bold uppercase tracking-widest ${color} mb-1.5`}>{title}</p>

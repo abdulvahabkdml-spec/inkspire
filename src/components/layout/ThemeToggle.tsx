@@ -7,7 +7,7 @@ export default function ThemeToggle() {
   const [theme, setTheme] = useState<'light' | 'dark'>('light');
 
   useEffect(() => {
-    const saved = localStorage.getItem('historia_theme') as 'light' | 'dark';
+    const saved = localStorage.getItem('inkspire_theme') as 'light' | 'dark';
     const initial = saved || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
     setTheme(initial);
     document.documentElement.classList.toggle('dark', initial === 'dark');
@@ -16,7 +16,7 @@ export default function ThemeToggle() {
   const toggle = () => {
     const next = theme === 'light' ? 'dark' : 'light';
     setTheme(next);
-    localStorage.setItem('historia_theme', next);
+    localStorage.setItem('inkspire_theme', next);
     document.documentElement.classList.toggle('dark', next === 'dark');
     document.documentElement.style.colorScheme = next;
   };

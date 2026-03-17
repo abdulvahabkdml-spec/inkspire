@@ -1,5 +1,4 @@
-import { Link } from '@/navigation';
-import { useTranslations } from 'next-intl';
+import Link from 'next/link';
 
 interface SpotlightProps {
   title: string;
@@ -18,14 +17,13 @@ export default function SpotlightHero({
   imageUrl,
   slug,
 }: SpotlightProps) {
-  const t = useTranslations('home.voices');
-
+  
   return (
     <section className="relative w-full h-[80vh] min-h-[600px] flex items-end justify-center overflow-hidden rounded-[3rem] shadow-2xl shadow-black/20 group">
       {/* Background Image with Overlay */}
       <div 
         className="absolute inset-0 z-0 bg-cover bg-center transition-transform duration-[10s] group-hover:scale-110"
-        style={{ backgroundImage: `url(${imageUrl})` }}
+        style={{ backgroundImage: `url(${imageUrl || 'https://images.unsplash.com/photo-1555993539-1732b0258235?q=80&w=1200&auto=format&fit=crop'})` }}
       />
       <div className="absolute inset-0 z-0 bg-gradient-to-t from-black via-black/20 to-transparent" />
 
@@ -55,7 +53,7 @@ export default function SpotlightHero({
             href={`/article/${slug}`}
             className="group relative inline-flex items-center justify-center px-12 py-4 text-white overflow-hidden rounded-full border border-white/20 hover:bg-white hover:text-black hover:border-white transition-all duration-500 backdrop-blur-md"
           >
-            <span className="relative z-10 font-bold tracking-[0.4em] uppercase text-[10px]">{t('readEditorial')}</span>
+            <span className="relative z-10 font-bold tracking-[0.4em] uppercase text-[10px]">{'Read the Editorial'}</span>
           </Link>
         </div>
       </div>

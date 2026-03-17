@@ -3,8 +3,8 @@ import AdminLayoutClient from './AdminLayoutClient';
 import '../globals.css';
 
 export const metadata: Metadata = {
-  title: 'Admin | THE HISTORIA',
-  description: 'Command Center for The Historia Digital Magazine.',
+  title: 'Admin | THE INKSPIRE',
+  description: 'Command Center for The Inkspire Digital Magazine.',
 };
 
 export default function AdminLayout({

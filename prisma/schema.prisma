@@ -47,12 +47,12 @@ model TagStore {
 
 model SiteSettings {
   id              String   @id @default(cuid())
-  siteName        String   @default("THE HISTORIA")
+  siteName        String   @default("THE INKSPIRE")
   description     String   @default("A Digital Magazine exploring faith, art, and history.")
-  contactEmail    String   @default("editor@thehistoria.com")
+  contactEmail    String   @default("editor@theinkspire.com")
   socialTwitter   String   @default("")
   socialInstagram String   @default("")
-  primaryColor    String   @default("#ec5b13")
+  primaryColor    String   @default("#2E5BFF")
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
 }

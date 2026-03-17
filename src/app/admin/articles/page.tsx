@@ -15,7 +15,7 @@ const TYPE_COLORS: Record<string, string> = {
   Articles: 'bg-white/10 text-white',
   Fiction:  'bg-white/5 text-slate-300',
   Voices:   'bg-white/5 text-slate-400',
-  Mythos: 'bg-[#ec5b13]/20 text-[#ec5b13]',
+  Mythos: 'bg-[#2E5BFF]/20 text-[#2E5BFF]',
 };
 
 export default function ArticlesListPage() {
@@ -50,7 +50,7 @@ export default function ArticlesListPage() {
   if (isLoading) {
     return (
       <div className="min-h-screen bg-[#0F0F0F] text-white flex items-center justify-center">
-        <Loader2 className="animate-spin text-[#ec5b13]" size={32} />
+        <Loader2 className="animate-spin text-[#2E5BFF]" size={32} />
       </div>
     );
   }
@@ -64,7 +64,7 @@ export default function ArticlesListPage() {
         </div>
         <Link
           href="/admin/articles/new"
-          className="flex items-center gap-2 bg-[#ec5b13] text-white px-6 py-3 rounded-lg font-bold uppercase tracking-widest text-[10px] hover:bg-[#ec5b13]/80 transition-all shadow-lg shadow-[#ec5b13]/20"
+          className="flex items-center gap-2 bg-[#2E5BFF] text-white px-6 py-3 rounded-lg font-bold uppercase tracking-widest text-[10px] hover:bg-[#2E5BFF]/80 transition-all shadow-lg shadow-[#2E5BFF]/20"
         >
           <Plus size={14} strokeWidth={3} />
           Create New Entry
@@ -103,7 +103,7 @@ export default function ArticlesListPage() {
                 <tr key={article.slug} className="group hover:bg-white/[0.02] transition-colors">
                   <td className="px-8 py-6">
                     <div className="flex flex-col gap-2">
-                      <span className="font-serif text-base font-bold text-white group-hover:text-[#ec5b13] transition-colors line-clamp-1">{article.title}</span>
+                      <span className="font-serif text-base font-bold text-white group-hover:text-[#2E5BFF] transition-colors line-clamp-1">{article.title}</span>
                       <div className="flex items-center gap-2">
                         <span className={`text-[8px] px-2 py-0.5 rounded-full font-black uppercase tracking-wider ${TYPE_COLORS[article.category] || TYPE_COLORS.Articles}`}>
                           {article.category}
@@ -132,7 +132,7 @@ export default function ArticlesListPage() {
                   <td className="px-8 py-6 text-right">
                     <div className="flex items-center justify-end gap-2">
                       <Link 
-                        href={`/en/article/${article.slug}`} 
+                        href={`/article/${article.slug}`} 
                         className="p-2 text-slate-500 hover:text-white bg-white/0 hover:bg-white/5 rounded-lg transition-all"
                         title="Live View"
                       >

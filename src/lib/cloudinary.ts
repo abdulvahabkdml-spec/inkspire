@@ -15,7 +15,7 @@ export default cloudinary;
 export async function uploadToCloudinary(
   file: Buffer,
   filename: string,
-  folder = 'the-historia'
+  folder = 'the-inkspire'
 ): Promise<{ url: string; publicId: string; bytes: number; format: string }> {
   return new Promise((resolve, reject) => {
     const uploadStream = cloudinary.uploader.upload_stream(

@@ -112,7 +112,7 @@ export default function MediaLibraryPage() {
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
         <div>
           <h2 className="text-2xl font-serif font-bold tracking-tight">Media Library</h2>
-          <p className="text-slate-500 text-sm mt-1">Manage all images and assets used across The Historia.</p>
+          <p className="text-slate-500 text-sm mt-1">Manage all images and assets used across The Inkspire.</p>
         </div>
         <button
           onClick={handleUploadClick}
