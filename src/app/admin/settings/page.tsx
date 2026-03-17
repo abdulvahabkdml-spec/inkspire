@@ -6,9 +6,9 @@ import { getSiteSettings, saveSiteSettings } from '@/lib/api';
 
 export default function SiteSettingsPage() {
   const [settings, setSettings] = useState({
-    siteName: 'THE INKSPIRE',
+    siteName: 'THE HISTORIA',
     description: 'A Digital Magazine exploration into the intersection of faith, art, and history.',
-    contactEmail: 'editor@theinkspire.com',
+    contactEmail: 'editor@thehistoria.com',
     socialTwitter: '',
     socialInstagram: '',
     primaryColor: '#2E5BFF',
